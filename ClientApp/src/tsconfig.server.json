@@ -1,6 +1,9 @@
 {
   "extends": "../tsconfig.json",
   "compilerOptions": {
+    "skipLibCheck": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
     "module": "commonjs"
   },
   "angularCompilerOptions": {

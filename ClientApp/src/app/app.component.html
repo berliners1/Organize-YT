@@ -1,6 +1,19 @@
 <body>
   <app-nav-menu></app-nav-menu>
   <div class="container">
+    <div *ngIf="auth.user$ | async as user; else login">
+      {{user | json}}
+      <br />
+      
+      <button (click)="auth.signOut()">Sign Out</button>
+
+
+
+    </div>
+    
+    <ng-template #login>
+      <button (click)="auth.googleSignin()">Login with Google</button>
+    </ng-template>
     <router-outlet></router-outlet>
   </div>
 </body>

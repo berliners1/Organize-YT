@@ -1,11 +1,11 @@
 ﻿using Newtonsoft.Json;
-using OrganizeYT.Models;
+using Organize_YT.Models;
 using System;
 using System.Net;
 using System.Threading.Channels;
 using Microsoft.Extensions.Configuration;
 
-namespace OrganizeYT.Data
+namespace Organize_YT.Data
 {
     public class YoutubeDataRepo : IYoutubeDataRepo
     {

@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using OrganizeYT.Data;
-using OrganizeYT.Models;
+using Organize_YT.Data;
+using Organize_YT.Models;
 using System.Threading.Channels;
 using Microsoft.Extensions.Configuration;
 
-namespace OrganizeYT.Controllers
+namespace Organize_YT.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

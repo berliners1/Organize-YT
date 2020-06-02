@@ -1,6 +1,6 @@
-﻿using OrganizeYT.Models;
+﻿using Organize_YT.Models;
 
-namespace OrganizeYT.Data
+namespace Organize_YT.Data
 {
     public interface IYoutubeDataRepo
     {

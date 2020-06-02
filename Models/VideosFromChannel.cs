@@ -4,7 +4,7 @@ using System.Globalization;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
-namespace OrganizeYT.Models
+namespace Organize_YT.Models
 {
     public partial class VideosFromChannel
     {
