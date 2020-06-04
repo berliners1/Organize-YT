@@ -27,7 +27,6 @@ export class AppComponent {
       
       this.http.get<VideosFromChannel>(this.FULL_SEARCH_URL)
       .subscribe(data => {
-        //this.videoTitle = data.items[i].snippet.title;
         this.videoTitle[i] = data.items[i].snippet.title;
         console.log("video " + this.videoTitle[i]);
       });
