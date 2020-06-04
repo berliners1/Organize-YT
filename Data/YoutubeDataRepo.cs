@@ -40,7 +40,7 @@ namespace Organize_YT.Data
 
         public VideosFromChannel GetChannelVideos(string ChannelId, string ApiKey)
         {
-            var JsonUrlData = new WebClient().DownloadString("https://www.googleapis.com/youtube/v3/search?key=" + ApiKey + "&channelId=" + ChannelId + "&part=snippet,id&order=date&maxResults=20");
+            var JsonUrlData = new WebClient().DownloadString("https://www.googleapis.com/youtube/v3/playlistItems?playlistId=" + ChannelId + "&key=" + ApiKey + "&part=snippet&maxResults=10");
             var ReadableJsonData = JsonConvert.DeserializeObject<VideosFromChannel>(JsonUrlData);
 
             return new VideosFromChannel
@@ -48,9 +48,8 @@ namespace Organize_YT.Data
                 Kind = ReadableJsonData.Kind,
                 Etag = ReadableJsonData.Etag,
                 NextPageToken = ReadableJsonData.NextPageToken,
-                RegionCode = ReadableJsonData.RegionCode,
-                PageInfo = ReadableJsonData.PageInfo,
-                Items = ReadableJsonData.Items
+                Items = ReadableJsonData.Items,
+                PageInfo = ReadableJsonData.PageInfo
             };
         }
     }

@@ -17,14 +17,11 @@ namespace Organize_YT.Models
         [JsonProperty("nextPageToken")]
         public string NextPageToken { get; set; }
 
-        [JsonProperty("regionCode")]
-        public string RegionCode { get; set; }
+        [JsonProperty("items")]
+        public VideosFromChannel_Item[] Items { get; set; }
 
         [JsonProperty("pageInfo")]
         public VideosFromChannel_PageInfo PageInfo { get; set; }
-
-        [JsonProperty("items")]
-        public VideosFromChannel_Item[] Items { get; set; }
     }
 
     public partial class VideosFromChannel_PageInfo
@@ -45,19 +42,10 @@ namespace Organize_YT.Models
         public string Etag { get; set; }
 
         [JsonProperty("id")]
-        public VideosFromChannel_Id Id { get; set; }
+        public string Id { get; set; }
 
         [JsonProperty("snippet")]
         public VideosFromChannel_Snippet Snippet { get; set; }
-    }
-
-    public partial class VideosFromChannel_Id
-    {
-        [JsonProperty("kind")]
-        public string Kind { get; set; }
-
-        [JsonProperty("videoId")]
-        public string videoId { get; set; }
     }
 
     public partial class VideosFromChannel_Snippet
@@ -80,21 +68,41 @@ namespace Organize_YT.Models
         [JsonProperty("channelTitle")]
         public string ChannelTitle { get; set; }
 
-        [JsonProperty("liveBroadcastContent")]
-        public string LiveBroadcastContent { get; set; }
+        [JsonProperty("playlistId")]
+        public string PlaylistId { get; set; }
 
-        [JsonProperty("publishTime")]
-        public string PublishTime { get; set; }
+        [JsonProperty("position")]
+        public int Position { get; set; }
+
+        [JsonProperty("resourceId")]
+        public VideosFromChannel_ResourceId ResourceId { get; set; }
+    }
+
+    public partial class VideosFromChannel_ResourceId
+    {
+        [JsonProperty("kind")]
+        public string Kind { get; set; }
+
+        [JsonProperty("videoId")]
+        public string VideoId { get; set; }
     }
 
     public partial class VideosFromChannel_Thumbnails
     {
         [JsonProperty("default")]
         public VideosFromChannel_ThumbnailsDefault ThumbnailsDefault { get; set; }
+
         [JsonProperty("medium")]
         public VideosFromChannel_ThumbnailsMedium ThumbnailsMedium { get; set; }
+
         [JsonProperty("high")]
         public VideosFromChannel_ThumbnailsHigh ThumbnailsHigh { get; set; }
+
+        [JsonProperty("standard")]
+        public VideosFromChannel_ThumbnailsStandard Standard { get; set; }
+
+        [JsonProperty("maxres")]
+        public VideosFromChannel_ThumbnailsMaxres Maxres { get; set; }
     }
     public partial class VideosFromChannel_ThumbnailsDefault
     {
@@ -119,6 +127,30 @@ namespace Organize_YT.Models
         public int Height { get; set; }
     }
     public partial class VideosFromChannel_ThumbnailsHigh
+    {
+        [JsonProperty("url")]
+        public string Url { get; set; }
+
+        [JsonProperty("width")]
+        public int Width { get; set; }
+
+        [JsonProperty("height")]
+        public int Height { get; set; }
+    }
+
+    public partial class VideosFromChannel_ThumbnailsStandard
+    {
+        [JsonProperty("url")]
+        public string Url { get; set; }
+
+        [JsonProperty("width")]
+        public int Width { get; set; }
+
+        [JsonProperty("height")]
+        public int Height { get; set; }
+    }
+
+    public partial class VideosFromChannel_ThumbnailsMaxres
     {
         [JsonProperty("url")]
         public string Url { get; set; }
