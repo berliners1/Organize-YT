@@ -35,19 +35,6 @@ export class AppComponent {
 
         //Combine all the separate 'channel' arrays into one big array that contains recent videos from all channels.
         this.combinedChannelsArray.push(this.channelVideosDetails[i]);
-        
-        //Make sure the loop is on its final iteration before doing this.
-        if(i === addedChannelIds.length - 1){
-          //console.log(this.combinedChannelsArray[0].items[0].snippet.title);
-          console.log(this.combinedChannelsArray);
-
-          for(let j = 0; j < data.items.length; j++){
-            console.log(this.combinedChannelsArray[0].items[j].snippet.title);
-          }
-          for(let j = 0; j < data.items.length; j++){
-            console.log(this.combinedChannelsArray[1].items[j].snippet.title);
-          }
-        }
 
         i++;
         
