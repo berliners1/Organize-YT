@@ -11,9 +11,11 @@
 
       <button (click)="getPosts(user.addedChannelIds)">Search for stuff!</button><br /><br />
 
-      <p *ngFor="let item of videoTitle">
-        {{item}}
-      </p>
+      <!-- *ngFor="let channelId of user.addedChannelIds" -->
+      <div  class=""> <!-- separate different channels here. Make first iteration only show first channel's video, etc for second. Maybe with an ng if. -->
+
+        <br />
+      </div>
 
       <hr />
 
