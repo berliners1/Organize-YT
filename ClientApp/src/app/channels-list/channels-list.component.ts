@@ -1,4 +1,5 @@
-import { Component, Input, AfterContentInit} from '@angular/core';
+import { Component, Input, Directive, AfterContentInit, Output, EventEmitter, ViewChild, ElementRef } from '@angular/core';
+import { AuthService } from '../services/auth.service';
 import { HttpClient } from '@angular/common/http';
 import { VideosFromChannel } from '../models/VideosFromChannel';
 
@@ -8,17 +9,19 @@ import { VideosFromChannel } from '../models/VideosFromChannel';
   styleUrls: ['./channels-list.component.css']
 })
 export class ChannelsListComponent implements AfterContentInit {
-
+  title = 'app';
   channelVideosDetails: any[] = new Array();
   combinedChannelsArray: any[] = new Array();
+
   ROOT_URL: string = 'https://localhost:44399/api/youtube/';
   FULL_SEARCH_URL: string;
 
-  constructor(private http: HttpClient){}
+  constructor(public auth: AuthService, private http: HttpClient){}
 
   @Input() userData: any;
 
   ngAfterContentInit(){
+    console.log('channels list finished rendering.')
     this.getPosts(this.userData);
   }
 
