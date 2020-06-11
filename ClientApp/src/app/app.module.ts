@@ -13,6 +13,7 @@ import { environment } from '../environments/environment';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { AngularFirestore } from '@angular/fire/firestore';
+import { ChannelsListComponent } from './channels-list/channels-list.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { AngularFirestore } from '@angular/fire/firestore';
     NavMenuComponent,
     HomeComponent,
     CounterComponent,
-    FetchDataComponent
+    FetchDataComponent,
+    ChannelsListComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

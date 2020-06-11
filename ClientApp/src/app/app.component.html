@@ -2,6 +2,9 @@
   <app-nav-menu></app-nav-menu>
   <div class="container">
     <div *ngIf="auth.user$ | async as user; else login">
+      
+
+
       {{user | json}}
       <br />
       
@@ -9,15 +12,7 @@
 
       <hr />
 
-      <button (click)="getPosts(user.addedChannelIds)">Search for stuff!</button><br /><br />
-
-      <div *ngFor="let channel of combinedChannelsArray" class="">
-        {{channel.items[0].snippet.channelTitle}}
-        <div *ngFor="let video of channel.items">
-          {{video.snippet.title}}
-        </div> 
-        <br />
-      </div>
+      <app-channels-list [userData]="user.addedChannelIds"></app-channels-list>
 
       <hr />
 
