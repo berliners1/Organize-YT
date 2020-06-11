@@ -1,5 +1,4 @@
-import { Component, Input, Directive, AfterContentInit, Output, EventEmitter, ViewChild, ElementRef } from '@angular/core';
-import { AuthService } from '../services/auth.service';
+import { Component, Input, AfterContentInit, AfterContentChecked, SimpleChanges} from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { VideosFromChannel } from '../models/VideosFromChannel';
 
@@ -8,40 +7,58 @@ import { VideosFromChannel } from '../models/VideosFromChannel';
   templateUrl: './channels-list.component.html',
   styleUrls: ['./channels-list.component.css']
 })
-export class ChannelsListComponent implements AfterContentInit {
-  title = 'app';
+export class ChannelsListComponent {
+
   channelVideosDetails: any[] = new Array();
   combinedChannelsArray: any[] = new Array();
-
   ROOT_URL: string = 'https://localhost:44399/api/youtube/';
   FULL_SEARCH_URL: string;
 
-  constructor(public auth: AuthService, private http: HttpClient){}
+  constructor(private http: HttpClient){}
 
   @Input() userData: any;
 
-  ngAfterContentInit(){
-    console.log('channels list finished rendering.')
-    this.getPosts(this.userData);
+  ngOnChanges(changes: SimpleChanges){
+    if(this.userData){
+      this.getPosts(this.userData);
+    }
   }
 
+  canGo: boolean = true;
+
   getPosts = async(addedChannelIds) => {
-    let i = 0;
-    for await(let addedChannelId of addedChannelIds){
-      this.FULL_SEARCH_URL = this.ROOT_URL + "bychannelid/" + addedChannelId;
 
-      this.http.get<VideosFromChannel>(this.FULL_SEARCH_URL)
-      .subscribe(data => {
+    if(this.canGo){
+      this.canGo = false;
 
-        //Have all "data's" existing at the same time in the same (final) iteration.
-        this.channelVideosDetails[i] = data;
+      let i = 0;
 
-        //Combine all the separate 'channel' arrays into one big array that contains recent videos from all channels.
-        this.combinedChannelsArray.push(this.channelVideosDetails[i]);
+      for await(let addedChannelId of addedChannelIds){
+        
+        this.FULL_SEARCH_URL = this.ROOT_URL + "bychannelid/" + addedChannelId;
 
-        i++;
-      });
+        this.http.get<VideosFromChannel>(this.FULL_SEARCH_URL)
+        .subscribe(data => {
+
+          //Have all "data's" existing at the same time in the same (final) iteration.
+          this.channelVideosDetails[i] = data;
+
+          //Combine all the separate 'channel' arrays into one big array that contains recent videos from all channels.
+          this.combinedChannelsArray.push(this.channelVideosDetails[i]);
+
+          i++;
+        });
+      }
+
+      setTimeout(function(){
+        this.canGo = true;
+      }, 1000)
+
+    } else {
+      console.log("too soon to call api again");
     }
+
+
   }
 
 }
