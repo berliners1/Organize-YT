@@ -1,12 +1,15 @@
 <body>
   <div class="container">
 
-    <div *ngIf="auth.user$ | async as user; else login; let j = index">
+    <div *ngIf="auth.user$ | async as user; else login">
       <app-header [userName]="user.displayName"></app-header>
       {{user | json}}
       <br />
-
-      <app-channels-list [userData]="user.addedChannelIds"></app-channels-list>
+      
+      <!-- So, right here, addedChannelIds cannot belong to user.
+      I need to make another collection - say, userAddedData - and
+      tie entries from user and userAddedData together with the uid. -->
+      <app-channels-list [userAddedChannelIds]="user.addedChannelIds"></app-channels-list>
       <hr />
     </div>
     

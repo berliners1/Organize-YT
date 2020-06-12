@@ -1,6 +1,9 @@
 import { Component, Input, AfterContentInit, AfterContentChecked, SimpleChanges} from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { VideosFromChannel } from '../models/VideosFromChannel';
+import { AuthService } from '../services/auth.service';
+import { AngularFirestore } from '@angular/fire/firestore';
+import { AngularFireAuth } from '@angular/fire/auth';
 
 @Component({
   selector: 'app-channels-list',
@@ -14,18 +17,32 @@ export class ChannelsListComponent {
   ROOT_URL: string = 'https://localhost:44399/api/youtube/';
   FULL_SEARCH_URL: string;
 
-  constructor(private http: HttpClient){}
+  constructor(
+    private http: HttpClient, 
+    public auth: AuthService, 
+    public afs: AngularFirestore, 
+    public afAuth: AngularFireAuth){}
 
-  @Input() userData: any;
+  @Input() userAddedChannelIds: any;
 
   ngOnChanges(changes: SimpleChanges){
-    if(this.userData){
-      this.getPosts(this.userData);
+    if(this.userAddedChannelIds){
+      this.getPosts(this.userAddedChannelIds);
+      if(!this.userAddedChannelIds.addedChannelIds){
+        console.log('addedChannelIds array exists but has nothing in it.');
+      }
+    }else{
+      console.log('addedChannelIds array does not exist.');
     }
+    
   }
 
-  canGo: boolean = true;
+  //function to add addedChannelIds array to account that doesn't have it.
 
+  //function to add strings to addedChannelIds
+
+
+  canGo: boolean = true;
   getPosts = async(addedChannelIds) => {
 
     if(this.canGo){
