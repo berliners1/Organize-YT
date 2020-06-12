@@ -1,6 +1,8 @@
 import { Component, Input, SimpleChanges} from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { VideosFromChannel } from '../models/VideosFromChannel';
+import { AngularFirestore } from '@angular/fire/firestore';
+import * as firebase from 'firebase';
 
 @Component({
   selector: 'app-channels-list',
@@ -16,9 +18,10 @@ export class ChannelsListComponent {
   canGo: boolean = true;
   channelId: string = "";
 
-  constructor(private http: HttpClient){}
+  constructor(private http: HttpClient, public afs: AngularFirestore){}
 
   @Input() userAddedChannelIds: any;
+  @Input() user: any;
 
   ngOnChanges(changes: SimpleChanges){
     if(this.userAddedChannelIds){
@@ -27,7 +30,6 @@ export class ChannelsListComponent {
   }
   
   getPosts = async(addedChannelIds) => {
-
     if(this.canGo){
       this.canGo = false;
 
@@ -57,8 +59,19 @@ export class ChannelsListComponent {
     } else {
       console.log("too soon to call api again");
     }
+  }
 
+  deleteChannel(channel, user){
+    //replace UC with UU at the start of channel ID
+    let channelId = channel.items[0].snippet.channelId.replace(/^.{2}/g, "UU");
+    
+    //remove specified UU-id from the addedChannelIds array
+    this.afs.doc(`users/${user.uid}`).update({
+      addedChannelIds: firebase.firestore.FieldValue.arrayRemove(channelId)
+    });
 
+    //To do: run getPosts again to refresh current list of channels. Also on search.component.ts.
+    
   }
 
 }
