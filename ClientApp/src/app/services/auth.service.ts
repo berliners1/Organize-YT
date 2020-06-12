@@ -57,17 +57,5 @@ export class AuthService {
 
     return userRef.set(data, {merge: true});
   }
-
-  /*
-  private createUserData(userData){
-    const userRef: AngularFirestoreDocument<User> = this.afs.doc(`users/${userData.uid}`);
-    const data = {
-      uid: userData.uid,
-      addedChannelIds: userData.addedChannelIds
-    };
-
-    return userRef.set(userData, {merge: true});
-  }
-  */
   
 }

@@ -5,10 +5,9 @@
       <app-header [userName]="user.displayName"></app-header>
       {{user | json}}
       <br />
+    
+      <app-search [user]="user"></app-search>
       
-      <!-- So, right here, addedChannelIds cannot belong to user.
-      I need to make another collection - say, userAddedData - and
-      tie entries from user and userAddedData together with the uid. -->
       <app-channels-list [userAddedChannelIds]="user.addedChannelIds"></app-channels-list>
       <hr />
     </div>
