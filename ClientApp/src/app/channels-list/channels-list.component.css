@@ -1,0 +1,6 @@
+.channel-class{
+    border:1px solid black;
+}
+.channel-class.hidden{
+    display:none;
+}

@@ -3,7 +3,7 @@
 
     <div *ngIf="auth.user$ | async as user; else login">
       <app-header [userName]="user.displayName"></app-header>
-      {{user | json}}
+      
       <br />
     
       <app-search [user]="user"></app-search>

@@ -1,4 +1,4 @@
-<div *ngFor="let channel of combinedChannelsArray" class="">
+<div *ngFor="let channel of combinedChannelsArray" class="channel-class">
     <span class="remove-channel-x" (click)="deleteChannel(channel, user)">X</span>
     {{channel.items[0].snippet.channelTitle}}
     <div *ngFor="let video of channel.items">
