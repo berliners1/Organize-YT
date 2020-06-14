@@ -1,8 +1,11 @@
-<div *ngFor="let channel of combinedChannelsArray" class="channel-class">
-    <span class="remove-channel-x" (click)="deleteChannel(channel, user)">X</span>
-    {{channel.items[0].snippet.channelTitle}}
-    <div *ngFor="let video of channel.items">
-        {{video.snippet.title}}
-    </div> 
-    <br />
+<div class="channels-grid-container">
+    <button (click)="replaceChannelOrder(user)">Append new channel order</button>
+    <div *ngFor="let channel of combinedChannelsArray" class="channel-class" style="max-height:200px; overflow-y:scroll;" id="{{channel.items[0].snippet.channelId}}">
+        <span class="remove-channel-x" (click)="deleteChannel(channel, user)">X</span><br />
+        {{channel.items[0].snippet.channelTitle}}
+        <div *ngFor="let video of channel.items">
+            {{video.snippet.title}}
+        </div> 
+        <br />
+    </div>
 </div>

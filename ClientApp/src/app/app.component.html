@@ -3,10 +3,12 @@
 
     <div *ngIf="auth.user$ | async as user; else login">
       <app-header [userName]="user.displayName"></app-header>
+      <pre style="max-height:420px; line-height:1; font-size:11px;">{{user | json}}</pre>
+      <br />
     
       <app-search [user]="user"></app-search>
       
-      <app-channels-list [user]="user" [userAddedChannelIds]="user.addedChannelIds"></app-channels-list>
+      <app-channels-list [user]="user"></app-channels-list>
       <hr />
     </div>
     

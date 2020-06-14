@@ -1,6 +1,6 @@
 .channel-class{
     border:1px solid black;
 }
-.channel-class.hidden{
+.hidden{
     display:none;
 }

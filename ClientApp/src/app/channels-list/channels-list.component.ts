@@ -17,10 +17,9 @@ export class ChannelsListComponent {
   ROOT_URL: string = 'https://localhost:44399/api/youtube/';
   FULL_SEARCH_URL: string;
   canGo: boolean = true;
-  
+
   constructor(private http: HttpClient, public afs: AngularFirestore){}
 
-  @Input() userAddedChannelIds: any;
   @Input() user: any;
 
   ngOnChanges(changes: SimpleChanges){
@@ -29,10 +28,12 @@ export class ChannelsListComponent {
     for(let i = 0; i < channelsToRemove.length; i++){
       channelsToRemove[i].classList.add('hidden');
     }
+    document.querySelectorAll('.hidden').forEach(e => e.classList.remove('channel-class'));
+
 
     //If there are channels to display from the database, run getPosts
-    if(this.userAddedChannelIds){
-      this.getPosts(this.userAddedChannelIds);
+    if(this.user.addedChannelIds){
+      this.getPosts(this.user.addedChannelIds);
     }
   }
 
@@ -71,6 +72,44 @@ export class ChannelsListComponent {
     this.afs.doc(`users/${user.uid}`).update({
       addedChannelIds: firebase.firestore.FieldValue.arrayRemove(channelIdToRemove)
     });
+  }
+
+  replaceChannelOrder(user){
+
+    //Figure out what the existing order of UU-id's in firestore db is
+    //and concatenate them into an array that FieldValue.arrayRemove() below can parse.
+    let oldOrder: any = new Array();
+    for(let i = 0; i < this.user.addedChannelIds.length; i++){
+      oldOrder.push(this.user.addedChannelIds[i])
+    }
+    console.log('oldOrder');
+    console.log(oldOrder);
+
+    //Do the same with newOrder.
+    /* Detailed explanation for my own reference:
+      This works because the UC-id is placed as the id of each channel element.
+      When the channels are physically reordered in the HTML, this scals the
+      UC-ids of them all and orders them in the new order, after making the
+      UC-ids into UU-ids. On trigger, the new order on the front-end will
+      be appended to be the new order on the server itself.
+    */
+    let newOrder: any = new Array();
+    for(let i = 0; i < this.user.addedChannelIds.length; i++){
+      newOrder.push((document.getElementsByClassName('channel-class')[i].id).replace(/^.{2}/g, 'UU'));
+    }
+    console.log('newOrder');
+    console.log(newOrder);
+
+    //Thanks the heavens for this thread, because afaik FieldValue.method.apply(this, var) is undocumented:
+    //https://stackoverflow.com/questions/53252265/firestore-pass-array-to-arrayunion
+    let removeOldOrder = firebase.firestore.FieldValue.arrayRemove.apply(this, oldOrder);
+    let replaceWithNewOrder = firebase.firestore.FieldValue.arrayUnion.apply(this, newOrder);
+    
+    let docReference = this.afs.doc(`users/${user.uid}`);
+
+    docReference.update({addedChannelIds: removeOldOrder});
+    docReference.update({addedChannelIds: replaceWithNewOrder});
+
   }
 
 }

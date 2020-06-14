@@ -51,7 +51,8 @@ export class AuthService {
       email: user.email,
       displayName: user.displayName,
       photoURL: user.photoURL,
-      addedChannelIds: []
+      addedChannelIds: [],
+      addedChannelIdsOrder: [],
     };
 
     return userRef.set(data, {merge: true});
