@@ -29,13 +29,9 @@ export class SearchComponent implements OnInit {
   //https://firebase.google.com/docs/firestore/manage-data/add-data#web_12
   addChannelsToArray(user){
     this.afs.doc(`users/${user.uid}`).update({
-      //addedChannelIds: [this.channelId]
       addedChannelIds: firebase.firestore.FieldValue.arrayUnion(this.channelId)
     });
 
   }
-  //return userRef.set(data, {merge: true});
-
-  //Run the method getPosts() from parent right here.
 
 }

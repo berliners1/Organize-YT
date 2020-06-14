@@ -3,7 +3,7 @@
 
     <div *ngIf="auth.user$ | async as user; else login">
       <app-header [userName]="user.displayName"></app-header>
-      
+      <pre>{{user.addedChannelIds | json}}</pre>
       <br />
     
       <app-search [user]="user"></app-search>

@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { VideosFromChannel } from '../models/VideosFromChannel';
 import { AngularFirestore } from '@angular/fire/firestore';
 import * as firebase from 'firebase';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-channels-list',
@@ -17,6 +18,7 @@ export class ChannelsListComponent {
   FULL_SEARCH_URL: string;
   canGo: boolean = true;
   channelId: string = "";
+  data: VideosFromChannel;
 
   constructor(private http: HttpClient, public afs: AngularFirestore){}
 
@@ -24,42 +26,43 @@ export class ChannelsListComponent {
   @Input() user: any;
 
   ngOnChanges(changes: SimpleChanges){
-
-    if(this.userAddedChannelIds){
-      console.log('get posts');
-      console.log("onChanges- " + this.userAddedChannelIds);
-      this.getPosts(this.userAddedChannelIds);
-    } else {
-      console.log('no posts');
-    }
-  }
-  
-  getPosts = async(addedChannelIds) => {
-    let i = 0;
-    for await(let addedChannelId of addedChannelIds){
-
-      this.FULL_SEARCH_URL = this.ROOT_URL + "bychannelid/" + addedChannelId;
-
-      this.http.get<VideosFromChannel>(this.FULL_SEARCH_URL)
-      .subscribe(data => {
-        //Have all "data's" existing at the same time in the same (final) iteration.
-        this.channelVideosDetails[i] = data;
-
-        console.log("subscribe-");
-        console.log(this.channelVideosDetails[i]);
-
-        //Combine all the separate 'channel' arrays into one big array that contains recent videos from all channels.
-        this.combinedChannelsArray.push(this.channelVideosDetails[i]);
-        
-        i++;
-      });
-    }
-
     //display:none existing channels and replace with what is now current in firebase's db, to avoid duplicates.
     let channelsToRemove = document.querySelectorAll('.channel-class');
     for(let j = 0; j < channelsToRemove.length; j++){
       channelsToRemove[j].classList.add('hidden');
     }
+
+    //If there are channels to display from the database, run getPosts
+    if(this.userAddedChannelIds){
+      this.getPosts(this.userAddedChannelIds);
+    }
+  }
+
+
+  getPosts(addedChannelIds){
+
+    let httpCalls: any = new Array(); //an array that will contain all this.http.get calls
+    for(let i = 0, x = 1; i < addedChannelIds.length; i++){
+      httpCalls.push(this.http.get(this.ROOT_URL + "bychannelid/" + addedChannelIds[i]));
+    }
+
+    //forkJoin makes it so all calls can be done on one .subscribe, instead of 3 .subscribes.
+    //This allows the data to render in its proper order, since .subscribe will run separate
+    //from any loop it may be inside. (You should not put functions inside a loop for that reason.)
+    const combined = forkJoin(
+      httpCalls
+    )
+
+    //This took me FOREVER to figure out, so in case I forget, here's the links that helped me out:
+    //https://stackoverflow.com/questions/23922301/while-or-for-loop-with-http-get
+    //https://stackoverflow.com/questions/49377607/preserve-the-order-of-the-http-calls-in-angular
+    //https://rxjs-dev.firebaseapp.com/api/index/function/forkJoin
+    combined.subscribe(data => {
+      for(let i = 0; i < addedChannelIds.length; i++){
+        this.channelVideosDetails[i] = data[i];
+        this.combinedChannelsArray.push(this.channelVideosDetails[i]);
+      }
+    })
   }
 
   deleteChannel(channel, user){
