@@ -6,13 +6,10 @@ import { AuthService } from '../services/auth.service';
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css']
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent {
 
   constructor(public auth: AuthService){}
 
   @Input() userName: any;
-
-  ngOnInit() {
-  }
 
 }

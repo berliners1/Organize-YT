@@ -17,9 +17,7 @@ export class ChannelsListComponent {
   ROOT_URL: string = 'https://localhost:44399/api/youtube/';
   FULL_SEARCH_URL: string;
   canGo: boolean = true;
-  channelId: string = "";
-  data: VideosFromChannel;
-
+  
   constructor(private http: HttpClient, public afs: AngularFirestore){}
 
   @Input() userAddedChannelIds: any;
@@ -28,8 +26,8 @@ export class ChannelsListComponent {
   ngOnChanges(changes: SimpleChanges){
     //display:none existing channels and replace with what is now current in firebase's db, to avoid duplicates.
     let channelsToRemove = document.querySelectorAll('.channel-class');
-    for(let j = 0; j < channelsToRemove.length; j++){
-      channelsToRemove[j].classList.add('hidden');
+    for(let i = 0; i < channelsToRemove.length; i++){
+      channelsToRemove[i].classList.add('hidden');
     }
 
     //If there are channels to display from the database, run getPosts
@@ -42,11 +40,11 @@ export class ChannelsListComponent {
   getPosts(addedChannelIds){
 
     let httpCalls: any = new Array(); //an array that will contain all this.http.get calls
-    for(let i = 0, x = 1; i < addedChannelIds.length; i++){
+    for(let i = 0; i < addedChannelIds.length; i++){
       httpCalls.push(this.http.get(this.ROOT_URL + "bychannelid/" + addedChannelIds[i]));
     }
 
-    //forkJoin makes it so all calls can be done on one .subscribe, instead of 3 .subscribes.
+    //forkJoin makes it so all calls can be done on one .subscribe, instead of multiple .subscribes.
     //This allows the data to render in its proper order, since .subscribe will run separate
     //from any loop it may be inside. (You should not put functions inside a loop for that reason.)
     const combined = forkJoin(
