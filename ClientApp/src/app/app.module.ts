@@ -12,6 +12,7 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import { ChannelsListComponent } from './channels-list/channels-list.component';
 import { HeaderComponent } from './header/header.component';
 import { SearchComponent } from './search/search.component';
+import {SortablejsModule} from 'ngx-sortablejs';
 
 @NgModule({
   declarations: [
@@ -26,6 +27,8 @@ import { SearchComponent } from './search/search.component';
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireAuthModule,
     FormsModule,
+    SortablejsModule,
+    SortablejsModule.forRoot({ animation: 150 }),
     RouterModule.forRoot([
 
     ])

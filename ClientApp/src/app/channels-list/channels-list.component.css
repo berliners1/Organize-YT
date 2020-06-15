@@ -4,3 +4,11 @@
 .hidden{
     display:none;
 }
+
+.master-list {
+    display:flex;
+    flex-wrap:wrap;
+  }
+  .master-list > div{
+    width:33%;
+  }
