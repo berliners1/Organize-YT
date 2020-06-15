@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import * as firebase from 'firebase';
 
@@ -15,6 +15,7 @@ export class SearchComponent implements OnInit {
   }
 
   @Input() user: any;
+  @Output() blockChannelsRefreshing = new EventEmitter<boolean>();
   channelId: string = '';
 
   //Validate this.channelId to make sure string is 24 characters, and starts with eiether UU or UC
@@ -28,10 +29,14 @@ export class SearchComponent implements OnInit {
   //function to add strings to addedChannelIds array
   //https://firebase.google.com/docs/firestore/manage-data/add-data#web_12
   addChannelsToArray(user){
+    this.blockRefresh();
     this.afs.doc(`users/${user.uid}`).update({
       addedChannelIds: firebase.firestore.FieldValue.arrayUnion(this.channelId)
     });
+  }
 
+  blockRefresh(){
+    this.blockChannelsRefreshing.emit(false);
   }
 
 }

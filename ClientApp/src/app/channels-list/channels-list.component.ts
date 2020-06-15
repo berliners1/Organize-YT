@@ -1,6 +1,5 @@
 import { Component, Input, SimpleChanges, Injectable} from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { VideosFromChannel } from '../models/VideosFromChannel';
 import { AngularFirestore } from '@angular/fire/firestore';
 import * as firebase from 'firebase';
 import { forkJoin } from 'rxjs';
@@ -16,24 +15,28 @@ export class ChannelsListComponent {
   combinedChannelsArray: any[] = new Array();
   ROOT_URL: string = 'https://localhost:44399/api/youtube/';
   FULL_SEARCH_URL: string;
-  canGo: boolean = true;
+  blockChannelsRefreshing: boolean = false;
 
   constructor(private http: HttpClient, public afs: AngularFirestore){}
 
   @Input() user: any;
 
   ngOnChanges(changes: SimpleChanges){
-    //display:none existing channels and replace with what is now current in firebase's db, to avoid duplicates.
-    let channelsToRemove = document.querySelectorAll('.channel-class');
-    for(let i = 0; i < channelsToRemove.length; i++){
-      channelsToRemove[i].classList.add('hidden');
-    }
-    document.querySelectorAll('.hidden').forEach(e => e.classList.remove('channel-class'));
-
-
     //If there are channels to display from the database, run getPosts
-    if(this.user.addedChannelIds){
+    //And also make sure replaceChannelOrder() didn't just run and trigger this from that.
+    if(this.user.addedChannelIds && this.blockChannelsRefreshing === false){
+      console.log('something other than replaceChannelOrder just ran, so DO grab from the server!');
+
+      //display:none existing channels and replace with what is now current in firebase's db, to avoid duplicates.
+      let channelsToRemove = document.querySelectorAll('.channel-class');
+      for(let i = 0; i < channelsToRemove.length; i++){
+        channelsToRemove[i].classList.add('hidden');
+      }
+      document.querySelectorAll('.hidden').forEach(e => e.classList.remove('channel-class'));
+
       this.getPosts(this.user.addedChannelIds);
+    } else {
+      console.log('replaceChannelOrder just ran, so do not grab from the server, bro!');
     }
   }
 
@@ -64,7 +67,14 @@ export class ChannelsListComponent {
     })
   }
 
+  receiveBlock($event){
+    console.log('event happened');
+    this.blockChannelsRefreshing = $event;
+  }
+
   deleteChannel(channel, user){
+    this.blockChannelsRefreshing = false;
+
     //replace UC with UU at the start of channel ID
     let channelIdToRemove = channel.items[0].snippet.channelId.replace(/^.{2}/g, "UU");
     
@@ -75,6 +85,7 @@ export class ChannelsListComponent {
   }
 
   replaceChannelOrder(user){
+    this.blockChannelsRefreshing = true;
 
     //Figure out what the existing order of UU-id's in firestore db is
     //and concatenate them into an array that FieldValue.arrayRemove() below can parse.
@@ -82,8 +93,6 @@ export class ChannelsListComponent {
     for(let i = 0; i < this.user.addedChannelIds.length; i++){
       oldOrder.push(this.user.addedChannelIds[i])
     }
-    console.log('oldOrder');
-    console.log(oldOrder);
 
     //Do the same with newOrder.
     /* Detailed explanation for my own reference:
@@ -97,8 +106,6 @@ export class ChannelsListComponent {
     for(let i = 0; i < this.user.addedChannelIds.length; i++){
       newOrder.push((document.getElementsByClassName('channel-class')[i].id).replace(/^.{2}/g, 'UU'));
     }
-    console.log('newOrder');
-    console.log(newOrder);
 
     //Thanks the heavens for this thread, because afaik FieldValue.method.apply(this, var) is undocumented:
     //https://stackoverflow.com/questions/53252265/firestore-pass-array-to-arrayunion
