@@ -26,7 +26,7 @@ export class ChannelsListComponent {
     //If there are channels to display from the database, run getPosts
     //And also make sure replaceChannelOrder() didn't just run and trigger this from that.
     if(this.user.addedChannelIds && this.blockChannelsRefreshing === false){
-      console.log('something other than replaceChannelOrder just ran, so DO grab from the server!');
+      console.log('DO grab from the server!');
 
       //display:none existing channels and replace with what is now current in firebase's db, to avoid duplicates.
       let channelsToRemove = document.querySelectorAll('.channel-class');
@@ -37,10 +37,20 @@ export class ChannelsListComponent {
 
       this.getPosts(this.user.addedChannelIds);
     } else {
-      console.log('replaceChannelOrder just ran, do NOT grab from the server');
+      console.log('do NOT grab from the server');
     }
   }
 
+  //loading indicator while getting posts
+  ngDoCheck(){
+    if(this.getPostsStatus){
+      console.log('loading');
+      document.querySelector('.loading-indicator').classList.add('active');
+    } else {
+      console.log('not loading');
+      document.querySelector('.loading-indicator').classList.remove('active');
+    }
+  }
 
   getPosts(addedChannelIds){
     this.getPostsStatus = true; //to notify other components that getPosts is running. Loading, etc.
