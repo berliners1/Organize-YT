@@ -27,11 +27,10 @@ export class ChannelsListComponent {
     //And also make sure replaceChannelOrder() didn't just run and trigger this from that.
     
     if(typeof this.user.addedChannelIds == "undefined" || !(this.user.addedChannelIds instanceof Array) || this.user.addedChannelIds.includes("") ){
-      console.log('array does not exist yet!');
     } else {
       if(this.user.addedChannelIds.length != 0 && this.blockChannelsRefreshing === false){
         console.log('DO grab from the server!');
-  
+
         //display:none existing channels and replace with what is now current in firebase's db, to avoid duplicates.
         let channelsToRemove = document.querySelectorAll('.channel-class');
         for(let i = 0; i < channelsToRemove.length; i++){
@@ -51,10 +50,8 @@ export class ChannelsListComponent {
   //loading indicator while getting posts
   ngDoCheck(){
     if(this.getPostsStatus){
-      console.log('loading');
       document.querySelector('.loading-indicator').classList.add('active');
     } else {
-      console.log('not loading');
       document.querySelector('.loading-indicator').classList.remove('active');
     }
   }
@@ -82,8 +79,6 @@ export class ChannelsListComponent {
       
       for(let i = 0; i < addedChannelIds.length; i++){
         this.channelVideosDetails[i] = data[i];
-        console.log('push:');
-        console.log(this.channelVideosDetails[i])
         this.combinedChannelsArray.push(this.channelVideosDetails[i]);
       }
       this.getPostsStatus = false; //to notify other components that getPosts is done running.

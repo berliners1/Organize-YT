@@ -16,8 +16,7 @@ export class MainComponentComponent implements OnInit {
 
   ngOnInit() {
     console.log('main component loaded');
-    if(this.user != undefined){
-      console.log("when does this happen?");
+    if(this.user != undefined && !(this.user.addedChannelIds instanceof Array)){
       let newArray: any = new Array();
       newArray.push("");
       console.log(newArray);
