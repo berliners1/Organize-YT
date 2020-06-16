@@ -1,8 +1,7 @@
-import { Component, Input, SimpleChanges, Injectable} from '@angular/core';
+import { Component, Input, SimpleChanges} from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { AngularFirestore } from '@angular/fire/firestore';
-import * as firebase from 'firebase';
-import { forkJoin, Subject } from 'rxjs';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-channels-list',
@@ -43,7 +42,6 @@ export class ChannelsListComponent {
         console.log('do NOT grab from the server');
       }
     }
-
 
   }
 

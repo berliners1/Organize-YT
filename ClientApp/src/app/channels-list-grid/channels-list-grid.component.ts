@@ -30,7 +30,7 @@ export class ChannelsListGridComponent {
     //Do the same with newOrder.
     /* Detailed explanation for my own reference:
       This works because the UC-id is placed as the id of each channel element.
-      When the channels are physically reordered in the HTML, this scals the
+      When the channels are physically reordered in the HTML, this scans the
       UC-ids of them all and orders them in the new order, after making the
       UC-ids into UU-ids. On trigger, the new order on the front-end will
       be appended to be the new order on the server itself.
@@ -40,18 +40,15 @@ export class ChannelsListGridComponent {
       newOrder.push((document.getElementsByClassName('channel-class')[i].id).replace(/^.{2}/g, 'UU'));
     }
 
-    //Thanks the heavens for this thread, because afaik FieldValue.method.apply(this, var) is undocumented:
+    //Thank the heavens for this thread, because afaik FieldValue.method.apply(this, var) is undocumented:
     //https://stackoverflow.com/questions/53252265/firestore-pass-array-to-arrayunion
     let removeOldOrder = firebase.firestore.FieldValue.arrayRemove.apply(this, oldOrder);
     let replaceWithNewOrder = firebase.firestore.FieldValue.arrayUnion.apply(this, newOrder);
     
     let docReference = this.afs.doc(`users/${user.uid}`);
-    //let docReferenceAlternate = this.afs.doc(`userChannels/${user.uid}`);
 
     docReference.update({addedChannelIds: removeOldOrder});
-    //docReferenceAlternate.update({addedChannelIds: removeOldOrder});
     docReference.update({addedChannelIds: replaceWithNewOrder});
-    //docReferenceAlternate.update({addedChannelIds: replaceWithNewOrder});
 
     this.disableEditMode();
   }
@@ -91,7 +88,6 @@ export class ChannelsListGridComponent {
   }
 
   enableEditMode(){
-    console.log('edit mode');
     document.querySelector('.channel-list-section').classList.add('edit-mode');
   }
   disableEditMode(){

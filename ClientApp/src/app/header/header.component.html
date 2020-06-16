@@ -1,11 +1,4 @@
 <div class="header-inner">
-    <div *ngIf="auth.user$ | async as user; else login">
-        <p>Welcome, {{userName}}</p>
-        <button (click)="auth.signOut()">Sign Out</button> 
-    </div>
-    
-    <ng-template #login>
-        <p>You are not logged in.</p>
-        <button (click)="auth.googleSignin()">Login with Google</button>
-    </ng-template>
+    <p>Welcome, {{userName}}</p>
+    <button (click)="auth.signOut()">Sign Out</button> 
 </div>

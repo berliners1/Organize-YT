@@ -27,8 +27,8 @@ export class DeleteChannelComponent {
     });
 
     //display:none the affected channel on the front-end
-    let uuid = (channel.items[0].snippet.channelId);
-    document.getElementById(uuid).classList.add('hidden');
+    let ucid = (channel.items[0].snippet.channelId);
+    document.getElementById(ucid).classList.add('hidden');
   }
 
   blockRefresh(){
