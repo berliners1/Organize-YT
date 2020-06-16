@@ -35,6 +35,7 @@ export class ChannelsListComponent {
         for(let i = 0; i < channelsToRemove.length; i++){
           channelsToRemove[i].classList.add('hidden');
         }
+        document.querySelectorAll('.hidden').forEach(e => e.removeAttribute('id'));
         document.querySelectorAll('.hidden').forEach(e => e.classList.remove('channel-class'));
   
         this.getPosts(this.user.addedChannelIds);
