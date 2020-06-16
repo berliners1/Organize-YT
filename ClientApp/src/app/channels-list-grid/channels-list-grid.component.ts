@@ -80,6 +80,13 @@ export class ChannelsListGridComponent {
     this.blockChannelsRefreshing.emit(false);
   }
 
+  //receive block event from app-delete-channel component
+  //and pass it through to app-channel-list component
+  receiveBlock($event){
+    console.log('to block:' + $event);
+    this.blockChannelsRefreshing.emit($event);
+  }
+
   enableEditMode(){
     console.log('edit mode');
     document.querySelector('.channel-list-section').classList.add('edit-mode');

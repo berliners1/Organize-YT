@@ -77,18 +77,5 @@ export class ChannelsListComponent {
     this.blockChannelsRefreshing = $event;
   }
 
-  deleteChannel(channel, user){
-    this.blockChannelsRefreshing = false;
-
-    //replace UC with UU at the start of channel ID
-    let channelIdToRemove = channel.items[0].snippet.channelId.replace(/^.{2}/g, "UU");
-    
-    //remove specified UU-id from the addedChannelIds array
-    this.afs.doc(`users/${user.uid}`).update({
-      addedChannelIds: firebase.firestore.FieldValue.arrayRemove(channelIdToRemove)
-    });
-  }
-
-
 
 }
