@@ -46,9 +46,12 @@ export class ChannelsListGridComponent {
     let replaceWithNewOrder = firebase.firestore.FieldValue.arrayUnion.apply(this, newOrder);
     
     let docReference = this.afs.doc(`users/${user.uid}`);
+    //let docReferenceAlternate = this.afs.doc(`userChannels/${user.uid}`);
 
     docReference.update({addedChannelIds: removeOldOrder});
+    //docReferenceAlternate.update({addedChannelIds: removeOldOrder});
     docReference.update({addedChannelIds: replaceWithNewOrder});
+    //docReferenceAlternate.update({addedChannelIds: replaceWithNewOrder});
 
     this.disableEditMode();
   }

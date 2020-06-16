@@ -9,13 +9,13 @@ import{
 import {Observable, of} from 'rxjs';
 import {switchMap} from 'rxjs/operators';
 import { User } from './user.model';
+import { userInfo } from 'os';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
   user$: Observable<User>;
-
   constructor(
     private afAuth: AngularFireAuth,
     private afs: AngularFirestore,
@@ -50,11 +50,8 @@ export class AuthService {
       uid: user.uid,
       email: user.email,
       displayName: user.displayName,
-      photoURL: user.photoURL,
-      addedChannelIds: [],
-      addedChannelIdsOrder: [],
+      photoURL: user.photoURL
     };
-
     return userRef.set(data, {merge: true});
   }
   

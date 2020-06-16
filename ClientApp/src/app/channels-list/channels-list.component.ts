@@ -25,20 +25,27 @@ export class ChannelsListComponent {
   ngOnChanges(changes: SimpleChanges){
     //If there are channels to display from the database, run getPosts
     //And also make sure replaceChannelOrder() didn't just run and trigger this from that.
-    if(this.user.addedChannelIds && this.blockChannelsRefreshing === false){
-      console.log('DO grab from the server!');
-
-      //display:none existing channels and replace with what is now current in firebase's db, to avoid duplicates.
-      let channelsToRemove = document.querySelectorAll('.channel-class');
-      for(let i = 0; i < channelsToRemove.length; i++){
-        channelsToRemove[i].classList.add('hidden');
-      }
-      document.querySelectorAll('.hidden').forEach(e => e.classList.remove('channel-class'));
-
-      this.getPosts(this.user.addedChannelIds);
+    
+    if(typeof this.user.addedChannelIds == "undefined" || !(this.user.addedChannelIds instanceof Array) || this.user.addedChannelIds.includes("") ){
+      console.log('array does not exist yet!');
     } else {
-      console.log('do NOT grab from the server');
+      if(this.user.addedChannelIds.length != 0 && this.blockChannelsRefreshing === false){
+        console.log('DO grab from the server!');
+  
+        //display:none existing channels and replace with what is now current in firebase's db, to avoid duplicates.
+        let channelsToRemove = document.querySelectorAll('.channel-class');
+        for(let i = 0; i < channelsToRemove.length; i++){
+          channelsToRemove[i].classList.add('hidden');
+        }
+        document.querySelectorAll('.hidden').forEach(e => e.classList.remove('channel-class'));
+  
+        this.getPosts(this.user.addedChannelIds);
+      } else {
+        console.log('do NOT grab from the server');
+      }
     }
+
+
   }
 
   //loading indicator while getting posts
@@ -75,6 +82,8 @@ export class ChannelsListComponent {
       
       for(let i = 0; i < addedChannelIds.length; i++){
         this.channelVideosDetails[i] = data[i];
+        console.log('push:');
+        console.log(this.channelVideosDetails[i])
         this.combinedChannelsArray.push(this.channelVideosDetails[i]);
       }
       this.getPostsStatus = false; //to notify other components that getPosts is done running.
