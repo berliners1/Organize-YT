@@ -23,7 +23,6 @@ export class MainComponentComponent implements OnInit {
       //Instead, I push "", and quickly replace "" with nothing, 
       //and make sure channel-list.ts waits for that to complete before scanning if the array has values or not.
       newArray.push("");
-      console.log(newArray);
       this.afs.doc(`users/${this.user.uid}`).set({addedChannelIds: firebase.firestore.FieldValue.arrayUnion.apply(this, newArray)}, {merge: true});
       this.afs.doc(`users/${this.user.uid}`).update({addedChannelIds: firebase.firestore.FieldValue.arrayRemove.apply(this, newArray)});
     }

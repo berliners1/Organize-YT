@@ -16,6 +16,7 @@ import {SortablejsModule} from 'ngx-sortablejs';
 import { ChannelsListGridComponent } from './channels-list-grid/channels-list-grid.component';
 import { DeleteChannelComponent } from './delete-channel/delete-channel.component';
 import { MainComponentComponent } from './main-component/main-component.component';
+import { LoggedOutComponent } from './logged-out/logged-out.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { MainComponentComponent } from './main-component/main-component.componen
     SearchComponent,
     ChannelsListGridComponent,
     DeleteChannelComponent,
-    MainComponentComponent
+    MainComponentComponent,
+    LoggedOutComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
