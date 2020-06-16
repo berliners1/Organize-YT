@@ -13,13 +13,15 @@ import { ChannelsListComponent } from './channels-list/channels-list.component';
 import { HeaderComponent } from './header/header.component';
 import { SearchComponent } from './search/search.component';
 import {SortablejsModule} from 'ngx-sortablejs';
+import { ChannelsListGridComponent } from './channels-list-grid/channels-list-grid.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     ChannelsListComponent,
     HeaderComponent,
-    SearchComponent
+    SearchComponent,
+    ChannelsListGridComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -28,7 +30,7 @@ import {SortablejsModule} from 'ngx-sortablejs';
     AngularFireAuthModule,
     FormsModule,
     SortablejsModule,
-    SortablejsModule.forRoot({ animation: 150 }),
+    SortablejsModule.forRoot({ animation: 150, handle: ".drag-overlay"  }),
     RouterModule.forRoot([
 
     ])

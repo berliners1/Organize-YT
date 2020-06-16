@@ -1,0 +1,45 @@
+.channel-class{
+    border:1px solid black;
+}
+.hidden{
+    display:none;
+}
+
+.channel-list-section .btn-edit-channel-order{
+    display:block;
+}
+.channel-list-section .btn-save-channel-order,
+.channel-list-section .btn-cancel{
+    display:none;
+}
+.master-list {
+    display:flex;
+    flex-wrap:wrap;
+}
+.master-list > .channel-class{
+    width:33%;
+    position:relative;
+    height:270px;
+    overflow-y:scroll;
+}
+.master-list .drag-overlay{
+    display:none;
+}
+
+.channel-list-section.edit-mode .btn-edit-channel-order{
+    display:none;
+}
+.channel-list-section.edit-mode .btn-save-channel-order,
+.channel-list-section.edit-mode .btn-cancel{
+    display:block;
+}
+.channel-list-section.edit-mode .master-list > .channel-class > .drag-overlay{
+    background:rgba(33,33,33,0.7);
+    color:white;
+    position:absolute;
+    height:100%;
+    width:100%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}

@@ -2,7 +2,7 @@ import { Component, Input, SimpleChanges, Injectable} from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { AngularFirestore } from '@angular/fire/firestore';
 import * as firebase from 'firebase';
-import { forkJoin } from 'rxjs';
+import { forkJoin, Subject } from 'rxjs';
 
 @Component({
   selector: 'app-channels-list',
@@ -16,6 +16,7 @@ export class ChannelsListComponent {
   ROOT_URL: string = 'https://localhost:44399/api/youtube/';
   FULL_SEARCH_URL: string;
   blockChannelsRefreshing: boolean = false;
+  public getPostsStatus: boolean;
 
   constructor(private http: HttpClient, public afs: AngularFirestore){}
 
@@ -36,12 +37,13 @@ export class ChannelsListComponent {
 
       this.getPosts(this.user.addedChannelIds);
     } else {
-      console.log('replaceChannelOrder just ran, so do not grab from the server, bro!');
+      console.log('replaceChannelOrder just ran, do NOT grab from the server');
     }
   }
 
 
   getPosts(addedChannelIds){
+    this.getPostsStatus = true; //to notify other components that getPosts is running. Loading, etc.
 
     let httpCalls: any = new Array(); //an array that will contain all this.http.get calls
     for(let i = 0; i < addedChannelIds.length; i++){
@@ -60,15 +62,18 @@ export class ChannelsListComponent {
     //https://stackoverflow.com/questions/49377607/preserve-the-order-of-the-http-calls-in-angular
     //https://rxjs-dev.firebaseapp.com/api/index/function/forkJoin
     combined.subscribe(data => {
+      
       for(let i = 0; i < addedChannelIds.length; i++){
         this.channelVideosDetails[i] = data[i];
         this.combinedChannelsArray.push(this.channelVideosDetails[i]);
       }
+      this.getPostsStatus = false; //to notify other components that getPosts is done running.
     })
+
   }
 
   receiveBlock($event){
-    console.log('event happened');
+    console.log('to block:' + $event);
     this.blockChannelsRefreshing = $event;
   }
 
@@ -84,39 +89,6 @@ export class ChannelsListComponent {
     });
   }
 
-  replaceChannelOrder(user){
-    this.blockChannelsRefreshing = true;
 
-    //Figure out what the existing order of UU-id's in firestore db is
-    //and concatenate them into an array that FieldValue.arrayRemove() below can parse.
-    let oldOrder: any = new Array();
-    for(let i = 0; i < this.user.addedChannelIds.length; i++){
-      oldOrder.push(this.user.addedChannelIds[i])
-    }
-
-    //Do the same with newOrder.
-    /* Detailed explanation for my own reference:
-      This works because the UC-id is placed as the id of each channel element.
-      When the channels are physically reordered in the HTML, this scals the
-      UC-ids of them all and orders them in the new order, after making the
-      UC-ids into UU-ids. On trigger, the new order on the front-end will
-      be appended to be the new order on the server itself.
-    */
-    let newOrder: any = new Array();
-    for(let i = 0; i < this.user.addedChannelIds.length; i++){
-      newOrder.push((document.getElementsByClassName('channel-class')[i].id).replace(/^.{2}/g, 'UU'));
-    }
-
-    //Thanks the heavens for this thread, because afaik FieldValue.method.apply(this, var) is undocumented:
-    //https://stackoverflow.com/questions/53252265/firestore-pass-array-to-arrayunion
-    let removeOldOrder = firebase.firestore.FieldValue.arrayRemove.apply(this, oldOrder);
-    let replaceWithNewOrder = firebase.firestore.FieldValue.arrayUnion.apply(this, newOrder);
-    
-    let docReference = this.afs.doc(`users/${user.uid}`);
-
-    docReference.update({addedChannelIds: removeOldOrder});
-    docReference.update({addedChannelIds: replaceWithNewOrder});
-
-  }
 
 }

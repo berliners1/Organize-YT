@@ -1,14 +1,2 @@
-.channel-class{
-    border:1px solid black;
-}
-.hidden{
-    display:none;
-}
 
-.master-list {
-    display:flex;
-    flex-wrap:wrap;
-  }
-  .master-list > div{
-    width:33%;
-  }
+
