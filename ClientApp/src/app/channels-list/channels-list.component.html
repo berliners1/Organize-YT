@@ -1,6 +1,8 @@
 <div class="channels-grid-container">
 
-    <app-search (blockChannelsRefreshing)="receiveBlock($event)" [user]="user"></app-search><br />
+    <app-search 
+    (blockChannelsRefreshing)="receiveBlock($event)" 
+    [user]="user"></app-search><br />
 
     <app-channels-list-grid 
     (blockChannelsRefreshing)="receiveBlock($event)"

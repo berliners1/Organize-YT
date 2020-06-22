@@ -2,3 +2,18 @@
 <input type="text" [(ngModel)]="channelId" />
 <br />
 <button (click)="getYourSubscribers()">Get Your Subscribers</button>
+
+<div *ngIf="allUserChannelsData !== undefined">
+    <div class="subscriptions-list-popup" style="height:500px;overflow-y:scroll;background:gainsboro;">
+        <div *ngFor="let channel of allUserChannelsData; let i = index" (click)="getSubscriptionChannelId(i)"  class="channel-class subscription-{{i}}" id="list-{{channel.DataChannelId}}">
+            <img src="{{channel.DataThumbnail}}" />
+            {{channel.DataTitle}}
+        </div>
+    </div>
+</div>
+<div style="position:relative;">
+    <div class="loading-indicator-subslist"></div>
+</div>
+    
+
+

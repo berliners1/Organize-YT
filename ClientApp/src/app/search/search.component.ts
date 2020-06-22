@@ -8,17 +8,16 @@ import { HttpClient } from '@angular/common/http';
   templateUrl: './search.component.html',
   styleUrls: ['./search.component.css']
 })
-export class SearchComponent implements OnInit {
+export class SearchComponent {
 
   constructor(public afs: AngularFirestore, private http: HttpClient){}
 
-  ngOnInit() {
-  }
-
   @Input() user: any;
+  public getPostsStatusSubs: boolean;
   @Output() blockChannelsRefreshing = new EventEmitter<boolean>();
   channelId: string = '';
   httpCalls: any;
+  allUserChannelsData: any;
 
   //Validate this.channelId to make sure string is 24 characters, and starts with eiether UU or UC
 
@@ -41,12 +40,31 @@ export class SearchComponent implements OnInit {
     this.blockChannelsRefreshing.emit(false);
   }
 
+
   getYourSubscribers(){
+    this.getPostsStatusSubs = true;
     let URL = "https://localhost:44399/api/youtube/yoursubscribers"
     this.httpCalls = this.http.get(URL);
-    console.log(this.httpCalls);
+    this.httpCalls.subscribe(data => {
+      console.log(data);
+      this.allUserChannelsData = data;
+      this.getPostsStatusSubs = false;
+    });
   }
-  //this.http.get(this.ROOT_URL + "bychannelid/" + addedChannelIds[i])
-  //https://localhost:44399/api/youtube/yoursubscribers
+
+  getSubscriptionChannelId(i){
+    console.log('clicked');
+    console.log(i);
+    let theId = document.querySelector('.subscription-' + i).id;
+    console.log(theId);
+  }
+
+  ngDoCheck(){
+    if(this.getPostsStatusSubs){
+      document.querySelector('.loading-indicator-subslist').classList.add('active');
+    } else {
+      document.querySelector('.loading-indicator-subslist').classList.remove('active');
+    }
+  }
 
 }
