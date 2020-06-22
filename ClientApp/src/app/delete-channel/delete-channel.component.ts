@@ -19,7 +19,8 @@ export class DeleteChannelComponent {
     this.blockRefresh();
 
     //replace UC with UU at the start of channel ID
-    let channelIdToRemove = channel.items[0].snippet.channelId.replace(/^.{2}/g, "UU");
+    let channelIdToRemove = channel[0].ChannelId.replace(/^.{2}/g, "UU");
+    console.log(channelIdToRemove);
     
     //remove specified UU-id from the addedChannelIds array
     this.afs.doc(`users/${user.uid}`).update({
@@ -27,7 +28,7 @@ export class DeleteChannelComponent {
     });
 
     //display:none the affected channel on the front-end
-    let ucid = (channel.items[0].snippet.channelId);
+    let ucid = (channel[0].ChannelId);
     document.getElementById(ucid).classList.add('hidden');
   }
 
