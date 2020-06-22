@@ -54,7 +54,7 @@ namespace Organize_YT.Data
                     ChannelData.Add(new SubscribersInfo
                     {
                         DataTitle = item.Snippet.Title,
-                        DataChannelId = item.Snippet.ChannelId,
+                        DataChannelId = item.Snippet.ResourceId.ChannelId,
                         DataThumbnail = item.Snippet.Thumbnails.Default__.Url
                     });
                 }
