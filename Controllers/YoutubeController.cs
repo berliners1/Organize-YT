@@ -1,8 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using Organize_YT.Data;
 using Organize_YT.Models;
-using System.Threading.Channels;
-using Microsoft.Extensions.Configuration;
 
 namespace Organize_YT.Controllers
 {
@@ -10,39 +11,67 @@ namespace Organize_YT.Controllers
     [ApiController]
     public class YoutubeController : ControllerBase
     {
-        public IConfiguration _configuration { get; }
-        private IYoutubeDataRepo _repository;
-        public YoutubeController(IYoutubeDataRepo repository, IConfiguration configuration)
+        //Gets the Youtube api key.
+        public static IConfiguration _configuration { get; set; }
+        public YoutubeController(IConfiguration configuration)
         {
-            _repository = repository;
             _configuration = configuration;
         }
 
-        //GET api/youtube/byvideoid/K10s2eK5MRc
-        [HttpGet("byvideoid/{VideoId}")]
-        public ActionResult<SingleYoutubeVideoById> GetVideoById(string VideoId, string ApiKey)
+        /*-----------------------------------*/
+        /*Data and API call for getting subscriptions of currently logged-in/authenticated user (getting your subscriptions)*/
+
+        //GET api/youtube/yoursubscriptions
+        [HttpGet("yoursubscribers")]
+        public ActionResult<SubscribersInfo> SendSubData() //rename this to something better
         {
-            ApiKey = _configuration["OrganizeYT:YoutubeApiKey"];
-            var videoItem = _repository.GetVideoById(VideoId, ApiKey);
-            return Ok(videoItem);
+            return Ok(GetSubData().Result);
         }
 
-        //GET api/youtube/byname/PewDiePie
-        [HttpGet("byname/{ChannelName}")]
-        public ActionResult<ChannelsFromNameSearch> GetChannelList(string ChannelName, string ApiKey)
+        //Gets return data from Run() in SubscriptionsData.
+        //This stack overvlow thread helped me out here:
+        //https://stackoverflow.com/questions/13002507/how-can-i-call-an-async-method-in-main
+        //And this documentation/code samples from Google:
+        //https://developers.google.com/api-client-library/dotnet/guide/aaa_oauth
+        //https://github.com/youtube/api-samples/blob/master/dotnet/Google.Apis.YouTube.Samples.Playlists/PlaylistUpdates.cs
+        static async Task<String> GetSubData() //rename this to something better
         {
-            ApiKey = _configuration["OrganizeYT:YoutubeApiKey"];
-            var videoItem = _repository.GetChannelsList(ChannelName, ApiKey);
-            return Ok(videoItem);
+            try
+            {
+                SubscriptionsData SubscriptionsData = new SubscriptionsData();
+                return await SubscriptionsData.Run();
+            }
+            catch (Exception ex)
+            {
+                return "error: " + ex;
+            }
         }
+
+
+        /*-----------------------------------*/
+        /*Data and API call for getting data from 10 most recent uploads of a channel based on the inputted channel ID*/
 
         //GET api/youtube/bychannelid/UC-lHJZR3Gqxm24_Vd_AJ5Yw
         [HttpGet("bychannelid/{ChannelId}")]
-        public ActionResult<VideosFromChannel> GetChannelVideos(string ChannelId, string ApiKey)
+        public ActionResult<ChannelDataInfo> SendChannelData(string ApiKey, string ChannelId)
         {
-            ApiKey = _configuration["OrganizeYT:YoutubeApiKey"];
-            var videoItem = _repository.GetChannelVideos(ChannelId, ApiKey);
-            return Ok(videoItem);
+            return Ok(GetChannelData(ApiKey, ChannelId).Result);
         }
+
+        static async Task<String> GetChannelData(string ApiKey, string ChannelId) //rename this to something better
+        {
+            try
+            {
+                ApiKey = _configuration["OrganizeYT:YoutubeApiKey"];
+                ChannelData ChannelData = new ChannelData();
+                return await ChannelData.Run(ApiKey, ChannelId);
+            }
+            catch (Exception ex)
+            {
+                return "error: " + ex;
+            }
+        }
+
+
     }
 }

@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import * as firebase from 'firebase';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-search',
@@ -9,7 +10,7 @@ import * as firebase from 'firebase';
 })
 export class SearchComponent implements OnInit {
 
-  constructor(public afs: AngularFirestore){}
+  constructor(public afs: AngularFirestore, private http: HttpClient){}
 
   ngOnInit() {
   }
@@ -17,6 +18,7 @@ export class SearchComponent implements OnInit {
   @Input() user: any;
   @Output() blockChannelsRefreshing = new EventEmitter<boolean>();
   channelId: string = '';
+  httpCalls: any;
 
   //Validate this.channelId to make sure string is 24 characters, and starts with eiether UU or UC
 
@@ -38,5 +40,13 @@ export class SearchComponent implements OnInit {
   blockRefresh(){
     this.blockChannelsRefreshing.emit(false);
   }
+
+  getYourSubscribers(){
+    let URL = "https://localhost:44399/api/youtube/yoursubscribers"
+    this.httpCalls = this.http.get(URL);
+    console.log(this.httpCalls);
+  }
+  //this.http.get(this.ROOT_URL + "bychannelid/" + addedChannelIds[i])
+  //https://localhost:44399/api/youtube/yoursubscribers
 
 }

@@ -79,6 +79,7 @@ export class ChannelsListComponent {
       for(let i = 0; i < addedChannelIds.length; i++){
         this.channelVideosDetails[i] = data[i];
         this.combinedChannelsArray.push(this.channelVideosDetails[i]);
+        console.log(this.channelVideosDetails[i]);
       }
       this.getPostsStatus = false; //to notify other components that getPosts is done running.
     })
