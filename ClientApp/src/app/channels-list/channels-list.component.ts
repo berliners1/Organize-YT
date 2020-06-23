@@ -60,7 +60,12 @@ export class ChannelsListComponent {
 
     let httpCalls: any = new Array(); //an array that will contain all this.http.get calls
     for(let i = 0; i < addedChannelIds.length; i++){
-      httpCalls.push(this.http.get(this.ROOT_URL + "bychannelid/" + addedChannelIds[i]));
+      if(addedChannelIds[i].match(/^[U][U|C][a-zA-Z0-9_-]{22,22}$/)){
+        httpCalls.push(this.http.get(this.ROOT_URL + "bychannelid/" + addedChannelIds[i]));
+      } else {
+        console.log('bad data detected: ' + addedChannelIds[i])
+      }
+      
     }
 
     //forkJoin makes it so all calls can be done on one .subscribe, instead of multiple .subscribes.
@@ -77,8 +82,11 @@ export class ChannelsListComponent {
     combined.subscribe(data => {
       
       for(let i = 0; i < addedChannelIds.length; i++){
-        this.channelVideosDetails[i] = data[i];
-        this.combinedChannelsArray.push(this.channelVideosDetails[i]);
+
+        if(data[i] != undefined){
+          this.channelVideosDetails[i] = data[i];
+          this.combinedChannelsArray.push(this.channelVideosDetails[i]);
+        }
         console.log(this.channelVideosDetails[i]);
       }
       this.getPostsStatus = false; //to notify other components that getPosts is done running.
