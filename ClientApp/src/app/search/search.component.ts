@@ -55,7 +55,7 @@ export class SearchComponent {
   getSubscriptionChannelId(i){
     console.log('clicked');
     console.log(i);
-    let theId = document.querySelector('.subscription-' + i).id;
+    let theId = document.querySelector('.subscription-' + i).id.replace(/^.{7}/g, "UU");
     console.log(theId);
   }
 
