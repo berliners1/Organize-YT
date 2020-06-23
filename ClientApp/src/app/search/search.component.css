@@ -19,3 +19,34 @@
     from {transform:rotate(0deg);}
     to {transform:rotate(360deg);}
 }
+
+.hide{
+    display:none;
+}
+.channel-class{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor:pointer;
+}
+.channel-class .remove-indicator{
+    display:none;
+}
+.channel-class.selected {
+    background: rgb(150,190,150);
+    box-shadow: inset 0px 0px 0px 2px greenyellow;
+}
+.channel-class.selected img{
+    padding-top:2px;
+    padding-bottom:2px;
+    padding-left:2px;
+    height:91px;
+}
+.channel-class.selected:hover .remove-indicator{
+    display:block;
+    font-size: 22px;
+    margin-right: 25px;
+}
+.channel-class:not(.selected):hover{
+    background: rgb(220,250,220);
+}

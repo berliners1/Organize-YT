@@ -1,16 +1,26 @@
 <button (click)="addChannelsToArray(user)">Add Channels by Id</button>
 <input type="text" [(ngModel)]="channelId" />
 <br />
-<button (click)="getYourSubscribers()">Get Your Subscribers</button>
+
+<br />
+<button class="call-popup-button" (click)="getYourSubscribers()">Add Channels (call command and show popup)</button>
+<br />
+<button class="just-popup-button hide">Add Channels (just show popup)</button>
 
 <div *ngIf="allUserChannelsData !== undefined">
     <div class="subscriptions-list-popup" style="height:500px;overflow-y:scroll;background:gainsboro;">
+        <button (click)="addChannelsToArray(user)">Add Selected Channels (append/refresh view)</button><br />
+        <button>Cancel (close popup and remove anything added to firestore from clicking below)</button>
+
         <div *ngFor="let channel of allUserChannelsData; let i = index" 
         (click)="getSubscriptionChannelId(i)" 
         class="channel-class subscription-{{i}}" 
         id="list-{{channel.DataChannelId}}">
-            <img src="{{channel.DataThumbnail}}" />
-            {{channel.DataTitle}}
+            <div class="image-and-title">
+                <img src="{{channel.DataThumbnail}}" />
+                {{channel.DataTitle}}
+            </div>
+            <div class="remove-indicator">X</div>
         </div>
     </div>
 </div>

@@ -19,28 +19,10 @@ export class SearchComponent {
   httpCalls: any;
   allUserChannelsData: any;
 
-  //Validate this.channelId to make sure string is 24 characters, and starts with eiether UU or UC
-
-  //If this.channelId starts with UC, replace UC with UU here
-
-  //Check if this.channelID's UU-id matches a real youtube channel, 
-  //with a quick /bychannelid search from my api.
-  //I probably just need to implement a try catch to be able to tell.
-
-  //function to add strings to addedChannelIds array
-  //https://firebase.google.com/docs/firestore/manage-data/add-data#web_12
-  addChannelsToArray(user){
-    this.blockRefresh();
-    this.afs.doc(`users/${user.uid}`).update({
-      addedChannelIds: firebase.firestore.FieldValue.arrayUnion(this.channelId)
-    });
-  }
-
-  blockRefresh(){
-    this.blockChannelsRefreshing.emit(false);
-  }
-
-
+  newList: any = new Array();
+  existingList: any = new Array();
+  combinedItems: any = new Array();
+  
   getYourSubscribers(){
     this.getPostsStatusSubs = true;
     let URL = "https://localhost:44399/api/youtube/yoursubscribers"
@@ -50,13 +32,80 @@ export class SearchComponent {
       this.allUserChannelsData = data;
       this.getPostsStatusSubs = false;
     });
+
+    document.querySelector('.call-popup-button').classList.add('hide');
+    document.querySelector('.just-popup-button').classList.remove('hide');
   }
 
   getSubscriptionChannelId(i){
+    this.blockRefresh();
     console.log('clicked');
     console.log(i);
+
+    //make theId equal to #id of selected element, and regex it to be an insertable UU-id.
     let theId = document.querySelector('.subscription-' + i).id.replace(/^.{7}/g, "UU");
-    console.log(theId);
+
+    //if clicked .channel-class doesn't have .selected, add it. Otherwise, remove it.
+    if(document.querySelector('.subscription-' + i).classList.contains('selected')){
+      document.querySelector('.subscription-' + i).classList.remove('selected');
+    } else {
+      document.querySelector('.subscription-' + i).classList.add('selected');
+    }
+
+    //compile the list of updated channel Ids to an array called newList.
+    //make sure theId doesn't already exist. If it does, remove it from the array.
+    if(this.newList.indexOf(theId) > -1){
+      console.log('id already exists, removing');
+      this.newList = this.newList.filter(item => item !== theId);
+    } else {
+      console.log('id is unique, adding');
+      this.newList.push(theId);
+    }
+    
+    //get the existing ids already in addedChannelIds, 
+    let existingList: any = new Array();
+    for(let i = 0; i < this.user.addedChannelIds.length; i++){
+      existingList.push(this.user.addedChannelIds[i]);
+    }
+    this.existingList = existingList;
+
+    //and add the newly selected items onto it.
+    let combinedItems: any = new Array();
+    combinedItems = existingList.concat(this.newList);
+    this.combinedItems = combinedItems;
+  }
+
+  //function to add strings to addedChannelIds array
+  //https://firebase.google.com/docs/firestore/manage-data/add-data#web_12
+  addChannelsToArray(user){
+    this.dontBlockRefresh();
+
+    console.log(this.existingList);
+    console.log(this.combinedItems);
+
+    let docReference = this.afs.doc(`users/${user.uid}`);
+
+    //remove the old list.
+    let removeOldOrder = firebase.firestore.FieldValue.arrayRemove.apply(this, this.existingList);
+    docReference.update({addedChannelIds: removeOldOrder});
+
+    //replace it with the new, updated list.
+    let replaceWithNewOrder = firebase.firestore.FieldValue.arrayUnion.apply(this, this.combinedItems);
+    docReference.update({addedChannelIds: replaceWithNewOrder});
+  }
+
+  refreshData(){
+    this.dontBlockRefresh();
+    document.querySelector('.subscriptions-list-popup').classList.add('hide');
+  }
+
+
+
+  dontBlockRefresh(){
+    this.blockChannelsRefreshing.emit(false);
+  }
+  blockRefresh(){
+    this.blockChannelsRefreshing.emit(true);
   }
 
   ngDoCheck(){
