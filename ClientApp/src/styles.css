@@ -45,7 +45,8 @@ button{
   border: none;
 }
 button:hover{
-  opacity:0.8;
+  opacity:0.9;
+  box-shadow: 0px 3px 0px 0px red;
 }
 button.button-small{
   padding: 5px 15px;
