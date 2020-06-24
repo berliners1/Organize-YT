@@ -1,3 +1,22 @@
 .hidden{
     display:none;
 }
+
+.container {
+    height:100vh;
+    display:flex;
+    align-items:center;
+}
+.inner {
+    background:var(--tertiary-bg-color);
+    border-radius:20px;
+    padding:2rem;
+    text-align:center;
+}
+.inner p{
+    font-size:20px;
+}
+.inner button{
+    padding:10px 25px;
+    font-weight:bold;
+}

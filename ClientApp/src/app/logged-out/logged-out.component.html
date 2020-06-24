@@ -4,12 +4,13 @@
 <div class="logged-out-available hidden">
 
     <div class="container">
-        <h1>Welcome to Organize-YT!</h1>
-        <p>Organize-YT lets you arrange a list of your subscriptions and their recently uploaded videos in a customizable drag-and-drop grid layout. Sign in with your Google account below and you're good to go!</p>
-    
-        <div class="sign-in-box">
-            <p>You are not logged in.</p>
-            <button (click)="auth.googleSignin()">Login with Google</button>
+        <div class="inner">
+            <h1>Welcome to Organize-YT!</h1>
+            <p>Organize-YT lets you arrange your subscriptions and their recent videos in a drag-and-drop grid layout.</p>
+            <p>Sign in with your Google account below to get started.</p>
+            <div class="sign-in-box">
+                <button (click)="auth.googleSignin()">Login with Google</button>
+            </div>
         </div>
     </div>
     
