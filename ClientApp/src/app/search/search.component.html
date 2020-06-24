@@ -30,7 +30,7 @@
 
             <div class="popup-footer">
                 <div class="popup-foter-buttons">
-                    <button (click)="addChannelsToArray(user)">Add Selected Channels</button>
+                    <button (click)="addChannelsToArray(user); showPopup = !showPopup">Add Selected Channels</button>
                     <button (click)="clearSelection()">Clear Selection</button>
                 </div>
             </div>

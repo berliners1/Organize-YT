@@ -92,10 +92,6 @@ export class SearchComponent {
 
     //make the arrays of selected items empty.
     this.newList = [];
-    this.existingList = [];
-    for(let i = 0; i < this.user.addedChannelIds.length; i++){
-      this.existingList.push(this.user.addedChannelIds[i]);
-    }
     this.combinedItems = [];
   }
 
@@ -123,6 +119,8 @@ export class SearchComponent {
       let replaceWithNewOrder = firebase.firestore.FieldValue.arrayUnion.apply(this, this.combinedItems);
       docReference.update({addedChannelIds: replaceWithNewOrder});
     }
+
+    this.clearSelection();
 
   }
 
