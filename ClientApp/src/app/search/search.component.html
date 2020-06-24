@@ -18,7 +18,7 @@
             <div class="popup-inner-container">
                 <div *ngFor="let channel of allUserChannelsData; let i = index" 
                 (click)="getSubscriptionChannelId(i)" 
-                class="channel-class subscription-{{i}}" 
+                class="channel-item subscription-{{i}}" 
                 id="list-{{channel.DataChannelId}}">
                     <div class="image-and-title">
                         <img src="{{channel.DataThumbnail}}" />

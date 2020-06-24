@@ -36,31 +36,31 @@
     justify-content:center;
 }
 
-.channel-class{
+.channel-item{
     display: flex;
     align-items: center;
     justify-content: space-between;
     cursor:pointer;
 }
-.channel-class .remove-indicator{
+.channel-item .remove-indicator{
     display:none;
 }
-.channel-class.selected {
+.channel-item.selected {
     background: rgb(150,190,150);
     box-shadow: inset 0px 0px 0px 2px greenyellow;
 }
-.channel-class.selected img{
+.channel-item.selected img{
     padding-top:2px;
     padding-bottom:2px;
     padding-left:2px;
 }
-.channel-class.selected:hover .remove-indicator{
+.channel-item.selected:hover .remove-indicator{
     display:block;
     font-size: 22px;
     margin-right: 25px;
     pointer-events:none;
 }
-.channel-class:not(.selected):hover{
+.channel-item:not(.selected):hover{
     background: rgb(220,250,220);
 }
 

@@ -48,7 +48,7 @@ export class SearchComponent {
     //make theId equal to #id of selected element, and regex it to be an insertable UU-id.
     let theId = document.querySelector('.subscription-' + i).id.replace(/^.{7}/g, "UU");
 
-    //if clicked .channel-class doesn't have .selected, add it. Otherwise, remove it.
+    //if clicked .channel-item doesn't have .selected, add it. Otherwise, remove it.
     if(document.querySelector('.subscription-' + i).classList.contains('selected')){
       document.querySelector('.subscription-' + i).classList.remove('selected');
     } else {
