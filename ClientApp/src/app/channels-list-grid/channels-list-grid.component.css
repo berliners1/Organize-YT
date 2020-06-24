@@ -113,6 +113,10 @@
     display:flex;
     align-items:center;
 }
+.video-item a:hover{
+    text-decoration:none;
+    background:var(--tertiary-bg-color);
+}
 .video-items p{
     margin-bottom:0;
     font-size:15px;
