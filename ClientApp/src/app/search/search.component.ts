@@ -19,7 +19,8 @@ export class SearchComponent {
   channelId: string = '';
   httpCalls: any;
   allUserChannelsData: any;
-  public showPopup = true;
+  public showPopup: boolean = true;
+  public allowChannelComparisons: boolean = false;
 
   newList: any = new Array();
   existingList: any = new Array();
@@ -138,6 +139,28 @@ export class SearchComponent {
       } else {
         document.querySelector('.loading-indicator-subslist').classList.remove('active');
       }
+    }
+
+    //If any channel items exist
+    //maybe make a change so this only runs after either Add Channels button is clicked.
+    if(document.getElementsByClassName('channel-item').length > 0 && this.allowChannelComparisons === true){
+      //var for UC-id
+      let channelsRendered = document.querySelectorAll('.channel-class');
+      let channelsRenderedIds: any = new Array();
+      for(let i = 0; i < channelsRendered.length; i++){
+        channelsRenderedIds.push(channelsRendered[i].id);
+      }
+      console.log(channelsRenderedIds);
+
+      //var for list-UCid
+      let channelsToAdd = document.querySelectorAll('.channel-item');
+      for(let i = 0; i < channelsToAdd.length; i++){
+        if(channelsRenderedIds.includes( (channelsToAdd[i].id).replace(/^.{5}/g, "") )){
+          document.querySelector('.subscription-'+i).classList.add('gray-out');
+        }
+      }
+
+      this.allowChannelComparisons = false;
     }
   }
 

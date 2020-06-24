@@ -3,9 +3,9 @@
 <br />
 
 <br />
-<button class="call-popup-button" (click)="getYourSubscribers(); showPopup = !showPopup">Add Channels (call command and show popup)</button>
+<button class="call-popup-button" (click)="getYourSubscribers(); showPopup = !showPopup; allowChannelComparisons = true">Add Channels (call command and show popup)</button>
 <br />
-<button class="just-popup-button hide" (click)="showPopup = !showPopup">Add Channels (just show popup)</button>
+<button class="just-popup-button hide" (click)="showPopup = !showPopup; allowChannelComparisons = true">Add Channels (just show popup)</button>
 
 <div class="subscriptions-list-popup-wrapper" [ngClass]="{'popup-inactive': showPopup, 'popup-active': !showPopup}">
 
