@@ -21,6 +21,7 @@ export class SearchComponent {
   allUserChannelsData: any;
   public showPopup: boolean = true;
   public allowChannelComparisons: boolean = false;
+  public submitButtonEnabled: boolean = false;
 
   newList: any = new Array();
   existingList: any = new Array();
@@ -65,6 +66,9 @@ export class SearchComponent {
       console.log('id is unique, adding');
       this.newList.push(theId);
     }
+
+    //check if the user has made a selection, and only enable the submit button if they have.
+    this.disableButtonIfNewListIsEmpty();
     
     //get the existing ids already in addedChannelIds, 
     let existingList: any = new Array();
@@ -94,6 +98,21 @@ export class SearchComponent {
     //make the arrays of selected items empty.
     this.newList = [];
     this.combinedItems = [];
+
+    this.disableButtonIfNewListIsEmpty();
+  }
+
+  disableButtonIfNewListIsEmpty(){
+    console.log('newList length:');
+    console.log(this.newList.length);
+
+    if(this.newList.length > 0){
+      this.submitButtonEnabled = true;
+    } else {
+      this.submitButtonEnabled = false;
+    }
+
+    
   }
 
   //function to add strings to addedChannelIds array

@@ -25,7 +25,9 @@
 
             <div class="popup-footer">
                 <div class="popup-foter-buttons">
-                    <button (click)="addChannelsToArray(user); showPopup = !showPopup">Add Selected Channels</button>
+                    <button 
+                    (click)="addChannelsToArray(user); showPopup = !showPopup"
+                    [ngClass]="{'button-enabled': submitButtonEnabled, 'button-disabled': !submitButtonEnabled}">Add Selected Channels</button>
                     <button (click)="clearSelection()">Clear Selection</button>
                 </div>
             </div>
@@ -34,7 +36,7 @@
 
         <div class="loading-container">
             <div class="loading-indicator-subslist"></div>
-            <p style="bottom:-40px; position:relative;">This may take a bit.</p>
+            <p style="bottom:-40px; position:relative; text-align:center;">Grabbing your subscriptions!<br />This may take a bit.</p>
         </div>
     </div>
 </div>
