@@ -17,6 +17,7 @@ import { ChannelsListGridComponent } from './channels-list-grid/channels-list-gr
 import { DeleteChannelComponent } from './delete-channel/delete-channel.component';
 import { MainComponentComponent } from './main-component/main-component.component';
 import { LoggedOutComponent } from './logged-out/logged-out.component';
+import { FooterComponent } from './footer/footer.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { LoggedOutComponent } from './logged-out/logged-out.component';
     ChannelsListGridComponent,
     DeleteChannelComponent,
     MainComponentComponent,
-    LoggedOutComponent
+    LoggedOutComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
