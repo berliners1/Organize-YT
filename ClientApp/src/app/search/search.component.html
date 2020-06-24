@@ -29,6 +29,7 @@
                     (click)="addChannelsToArray(user); showPopup = !showPopup"
                     [ngClass]="{'button-enabled': submitButtonEnabled, 'button-disabled': !submitButtonEnabled}">Add Selected Channels</button>
                     <button (click)="clearSelection()">Clear Selection</button>
+                    <p style="margin:0;text-align:center;">Channels selected: {{newList.length}}</p>
                 </div>
             </div>
     
