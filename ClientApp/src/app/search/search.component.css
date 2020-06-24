@@ -76,8 +76,8 @@
     height: 100%;
     z-index: 0;
     background: rgba(24,24,24,.8);
-  }
-  .popup-close-x{
+}
+.popup-close-x{
     font-size: 30px;
     font-weight: 700;
     color: #fff;
@@ -94,14 +94,13 @@
     align-items: center;
     justify-content: center;
     box-shadow: 0 3px 6px rgba(0,0,0,.16),0 3px 6px rgba(0,0,0,.23);
-  }
-  .popup-outer {
+}
+.popup-outer {
     height: 65%;
     min-height:500px;
     width:90%;
     max-width:1000px;
     min-width:200px;
-    overflow-y: scroll;
     background: gainsboro;
     position:fixed;
     z-index:1;
@@ -110,7 +109,21 @@
     left:0;
     right:0;
     margin:auto;
-  }
-  .popup-outer img{
+}
+.popup-rendered{
+    height:100%;
+}
+.popup-inner-container{
+    overflow-y:scroll;
+    height:calc(100% - 40px);
+}
+.popup-footer{
+    height:40px;
+    background: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.popup-rendered img{
     height:55px;
-  }
+}

@@ -105,14 +105,11 @@ export class SearchComponent {
 
   ngDoCheck(){
     if(document.getElementsByClassName('loading-indicator-subslist').length > 0){
-      console.log('loading indicator exists');
       if(this.getPostsStatusSubs){
         document.querySelector('.loading-indicator-subslist').classList.add('active');
       } else {
         document.querySelector('.loading-indicator-subslist').classList.remove('active');
       }
-    } else {
-      console.log('does not exist');
     }
   }
 

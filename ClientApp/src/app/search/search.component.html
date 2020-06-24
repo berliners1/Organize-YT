@@ -14,21 +14,25 @@
 
     <div class="popup-outer">
         <div class="popup-rendered" *ngIf="allUserChannelsData !== undefined">
-
-            <div class="popup-header">
-                <button (click)="addChannelsToArray(user)">Add Selected Channels</button>
-                <button (click)="showPopup = !showPopup">Cancel</button>
-            </div>
             
-            <div *ngFor="let channel of allUserChannelsData; let i = index" 
-            (click)="getSubscriptionChannelId(i)" 
-            class="channel-class subscription-{{i}}" 
-            id="list-{{channel.DataChannelId}}">
-                <div class="image-and-title">
-                    <img src="{{channel.DataThumbnail}}" />
-                    {{channel.DataTitle}}
+            <div class="popup-inner-container">
+                <div *ngFor="let channel of allUserChannelsData; let i = index" 
+                (click)="getSubscriptionChannelId(i)" 
+                class="channel-class subscription-{{i}}" 
+                id="list-{{channel.DataChannelId}}">
+                    <div class="image-and-title">
+                        <img src="{{channel.DataThumbnail}}" />
+                        {{channel.DataTitle}}
+                    </div>
+                    <div class="remove-indicator">X</div>
                 </div>
-                <div class="remove-indicator">X</div>
+            </div>
+
+            <div class="popup-footer">
+                <div class="popup-foter-buttons">
+                    <button (click)="addChannelsToArray(user)">Add Selected Channels</button>
+                    <button (click)="showPopup = !showPopup">Clear Selection</button>
+                </div>
             </div>
     
         </div>
