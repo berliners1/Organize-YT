@@ -1,18 +1,16 @@
-/* You can add global styles to this file, and also import other style files */
+:root{
+  --main-bg-color:rgb(33,33,33);
+  --secondary-bg-color:rgb(40,40,40);
+  --tertiary-bg-color:rgb(55,55,55);
 
-/* Provide sufficient contrast against white background */
-a {
-  color: #0366d6;
+  --main-foreground-color:rgb(255,255,255);
 }
 
-code {
-  color: #e01a76;
+body{
+  background: var(--main-bg-color);
 }
-
-.btn-primary {
-  color: #fff;
-  background-color: #1b6ec2;
-  border-color: #1861ac;
+a, p, span, h1, h2, h3, h4, h5, h6 {
+  color: var(--main-foreground-color);
 }
 
 
@@ -22,7 +20,7 @@ code {
 .loading-indicator.active{
   display:inline-block;
   animation: loadingSpin 0.5s linear infinite;
-  background: black;
+  background: white;
   color: transparent;
   width: 21px;
   height: 3px;
@@ -36,4 +34,21 @@ code {
 @keyframes loadingSpin{
   from {transform:rotate(0deg);}
   to {transform:rotate(360deg);}
+}
+
+button{
+  background: white;
+  box-shadow: none;
+  border: none;
+}
+button:hover{
+  opacity:0.8;
+}
+button.button-small{
+  padding: 5px 15px;
+}
+button.button-regular{
+  padding: 10px 30px;
+  font-weight: bold;
+  text-transform: uppercase;
 }

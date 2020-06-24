@@ -1,13 +1,13 @@
-<body>
-  <div class="container">
 
-    <div *ngIf="auth.user$ | async as user; else login">
-      <app-main-component [user]="user"></app-main-component>
-    </div>
+<div class="custom-container">
 
-    <ng-template #login>
-      <app-logged-out></app-logged-out>
-    </ng-template>
-
+  <div *ngIf="auth.user$ | async as user; else login">
+    <app-main-component [user]="user"></app-main-component>
   </div>
-</body>
+
+  <ng-template #login>
+    <app-logged-out></app-logged-out>
+  </ng-template>
+
+</div>
+

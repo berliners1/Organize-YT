@@ -1,6 +1,12 @@
-<button class="call-popup-button" (click)="getYourSubscribers(); showPopup = !showPopup; allowChannelComparisons = true">Add Channels (call command and show popup)</button>
-<br />
-<button class="just-popup-button hide" (click)="showPopup = !showPopup; allowChannelComparisons = true">Add Channels (just show popup)</button>
+<button class="call-popup-button button-add-channels" (click)="getYourSubscribers(); showPopup = !showPopup; allowChannelComparisons = true">
+    <span class="add-text-1">+</span>
+    <span class="add-text-2">Add Channels</span>
+</button>
+
+<button class="just-popup-button hide button-add-channels" (click)="showPopup = !showPopup; allowChannelComparisons = true">
+    <span class="add-text-1">+</span>
+    <span class="add-text-2">Add Channels</span>
+</button>
 
 <div class="subscriptions-list-popup-wrapper" [ngClass]="{'popup-inactive': showPopup, 'popup-active': !showPopup}">
 
@@ -37,7 +43,7 @@
 
         <div class="loading-container">
             <div class="loading-indicator-subslist"></div>
-            <p style="bottom:-40px; position:relative; text-align:center;">Grabbing your subscriptions!<br />This may take a bit.</p>
+            <p style="bottom:-45px; position:relative; text-align:center;">Grabbing your subscriptions!<br />This may take a bit.</p>
         </div>
     </div>
 </div>

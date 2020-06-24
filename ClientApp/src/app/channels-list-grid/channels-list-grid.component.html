@@ -1,8 +1,10 @@
 <div class="channel-list-section">
-    <button class="btn-edit-channel-order" (click)="enableEditMode()">Edit Channel Order</button><br />
-    <button class="btn-save-channel-order" (click)="replaceChannelOrder(user)">Save channel order</button><br />
-    <button class="btn-cancel" (click)="revertChannelOrder(user)">Cancel</button>
 
+    <div class="list-edit-buttons">
+        <button class="btn-save-channel-order" (click)="replaceChannelOrder(user)">Save channel order</button>
+        <button class="btn-cancel" (click)="revertChannelOrder(user)">Cancel</button>
+    </div>
+    
     <div [sortablejs]="combinedChannelsArray" class="master-list">
         <div *ngFor="let channel of combinedChannelsArray" class="channel-class" id="{{channel[0].ChannelId}}">
             <div class="drag-overlay">
@@ -12,13 +14,26 @@
                 </svg>
             </div>
 
-            <app-delete-channel [user]="user" [channel]="channel" (blockChannelsRefreshing)="receiveBlock($event)"></app-delete-channel>
-            <img src="{{channel[0].ChannelPhoto}}" alt="channel photo" />
-            {{channel[0].ChannelTitle}}
-            <div *ngFor="let video of channel">
-                <a href="https://www.youtube.com/watch?v={{video.VideoUrlId}}">{{video.VideoTitle}}</a>
-            </div> 
-            <br />
+            <div class="channel-top">
+                <div class="channel-top-options">
+                    <span class="sort-option" (click)="enableEditMode()">
+                        <svg _ngcontent-ng-cli-universal-c5="" fill="currentColor" viewBox="0 0 28 28" width="24px"><path _ngcontent-ng-cli-universal-c5="" d="M10 9h4V6h3l-5-5-5 5h3v3zm-1 1H6V7l-5 5 5 5v-3h3v-4zm14 2l-5-5v3h-3v4h3v3l5-5zm-9 3h-4v3H7l5 5 5-5h-3v-3z"></path><path _ngcontent-ng-cli-universal-c5="" d="M0 0h24v24H0z" fill="none"></path></svg>
+                    </span>
+                    <app-delete-channel [user]="user" [channel]="channel" (blockChannelsRefreshing)="receiveBlock($event)"></app-delete-channel>
+                </div>
+                <a href="https://youtube.com/channel/{{channel[0].ChannelId}}" target="_blank">
+                    <img src="{{channel[0].ChannelPhoto}}" alt="channel photo" />
+                    <p>{{channel[0].ChannelTitle}}</p>
+                </a>
+            </div>
+            <div class="video-items">
+                <div class="video-item" *ngFor="let video of channel">
+                    <a href="https://www.youtube.com/watch?v={{video.VideoUrlId}}" target="_blank">
+                        <img src="{{video.VideoThumbnail}}" alt="video thumbnail" />
+                        <p>{{video.VideoTitle}}</p>
+                    </a>
+                </div>
+            </div>
         </div>
     </div>
     

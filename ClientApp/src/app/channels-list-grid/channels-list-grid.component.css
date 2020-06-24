@@ -1,5 +1,6 @@
 .channel-class{
     border:1px solid black;
+    background:var(--secondary-bg-color);
 }
 .hidden{
     display:none;
@@ -13,22 +14,19 @@
     display:none;
 }
 .master-list {
-    display:flex;
-    flex-wrap:wrap;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(360px, auto));
+    justify-content: center;
 }
 .master-list > .channel-class{
-    width:33%;
     position:relative;
-    height:270px;
-    overflow-y:scroll;
+    width:350px;
+    margin:10px;
 }
 .master-list .drag-overlay{
     display:none;
 }
 
-.channel-list-section.edit-mode .btn-edit-channel-order{
-    display:none;
-}
 .channel-list-section.edit-mode .btn-save-channel-order,
 .channel-list-section.edit-mode .btn-cancel{
     display:block;
@@ -42,4 +40,84 @@
     display:flex;
     align-items:center;
     justify-content:center;
+    cursor:grab;
+}
+.channel-list-section.edit-mode .master-list > .channel-class > .drag-overlay:active{
+    cursor:grabbing;
+}
+
+.list-edit-buttons{
+    display:none;
+}
+.channel-list-section.edit-mode .list-edit-buttons{
+    display:flex;
+}
+.list-edit-buttons{
+    align-items: center;
+    justify-content: center;
+
+    position: fixed;
+    background: rgba(33,33,33,0.8);
+    border: 1px solid rgba(255,255,255,0.5);
+    z-index: 9;
+    left: 0;
+    right: 0;
+    margin: auto;
+    width: 300px;
+    padding: 20px 0;
+}
+.list-edit-buttons button {
+    margin-left:10px;
+    margin-right:10px;
+}
+
+.channel-top-options{
+    background: rgb(40,40,40);
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding:3px 10px;
+}
+.channel-top-options .sort-option{
+    cursor:pointer;
+}
+.channel-top-options .sort-option:hover{
+    opacity:0.8;
+}
+.channel-top a {
+    display:flex;
+    align-items:center;
+    padding:5px 10px;
+    background:rgb(55,55,55)
+}
+.channel-top img{
+    height:50px;
+    border-radius:50%;
+}
+.channel-top a > p{
+    margin-left:12px;
+    font-size:17px;
+    margin-bottom:0;
+}
+
+
+.video-items {
+    height:300px;
+    overflow-y:scroll;
+}
+.video-item{
+    margin:5px 0;
+}
+.video-item a{
+    display:flex;
+    align-items:center;
+}
+.video-items p{
+    margin-bottom:0;
+    font-size:15px;
+    margin:0 20px;
+}
+.video-items img{
+    width:140px;
 }

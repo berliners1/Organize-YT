@@ -43,7 +43,7 @@ namespace Organize_YT.Data
                     ChannelTitle = item.Snippet.ChannelTitle,
                     ChannelId = item.Snippet.ChannelId,
                     VideoTitle = item.Snippet.Title,
-                    VideoThumbnail = item.Snippet.Thumbnails.Default__.Url,
+                    VideoThumbnail = item.Snippet.Thumbnails.Medium.Url,
                     VideoUrlId = item.Snippet.ResourceId.VideoId
                 });
             }
