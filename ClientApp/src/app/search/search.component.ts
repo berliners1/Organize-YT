@@ -2,6 +2,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import * as firebase from 'firebase';
 import { HttpClient } from '@angular/common/http';
+import { active } from 'sortablejs';
 
 @Component({
   selector: 'app-search',
@@ -75,6 +76,27 @@ export class SearchComponent {
     let combinedItems: any = new Array();
     combinedItems = existingList.concat(this.newList);
     this.combinedItems = combinedItems;
+
+    console.log('in getSubscriptionChannelId')
+    console.log(this.newList);
+    console.log(this.existingList);
+    console.log(this.combinedItems);
+  }
+
+  clearSelection(){
+    //Clear what is visibly selected in the list
+    let activeSelections = document.getElementsByClassName('selected');
+    while(activeSelections.length > 0){
+      activeSelections[0].classList.remove('selected');
+    }
+
+    //make the arrays of selected items empty.
+    this.newList = [];
+    this.existingList = [];
+    for(let i = 0; i < this.user.addedChannelIds.length; i++){
+      this.existingList.push(this.user.addedChannelIds[i]);
+    }
+    this.combinedItems = [];
   }
 
   //function to add strings to addedChannelIds array
@@ -82,18 +104,26 @@ export class SearchComponent {
   addChannelsToArray(user){
     this.dontBlockRefresh();
 
+    console.log('in addChannelsToArray');
+    console.log(this.newList);
     console.log(this.existingList);
     console.log(this.combinedItems);
 
     let docReference = this.afs.doc(`users/${user.uid}`);
 
-    //remove the old list.
-    let removeOldOrder = firebase.firestore.FieldValue.arrayRemove.apply(this, this.existingList);
-    docReference.update({addedChannelIds: removeOldOrder});
+    //remove the old list, if there are any items in this.existingList.
+    if(this.existingList.length > 0 && this.combinedItems.length > this.existingList.length){
+      let removeOldOrder = firebase.firestore.FieldValue.arrayRemove.apply(this, this.existingList);
+      docReference.update({addedChannelIds: removeOldOrder});
+    }
 
-    //replace it with the new, updated list.
-    let replaceWithNewOrder = firebase.firestore.FieldValue.arrayUnion.apply(this, this.combinedItems);
-    docReference.update({addedChannelIds: replaceWithNewOrder});
+    //replace it with the new & updated list, if combinedItems is bigger than existingList.
+    if(this.combinedItems.length > this.existingList.length){
+      console.log('does this run');
+      let replaceWithNewOrder = firebase.firestore.FieldValue.arrayUnion.apply(this, this.combinedItems);
+      docReference.update({addedChannelIds: replaceWithNewOrder});
+    }
+
   }
 
   dontBlockRefresh(){
