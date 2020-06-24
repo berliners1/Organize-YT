@@ -18,19 +18,21 @@ export class SearchComponent {
   channelId: string = '';
   httpCalls: any;
   allUserChannelsData: any;
+  public showPopup = true;
 
   newList: any = new Array();
   existingList: any = new Array();
   combinedItems: any = new Array();
   
+  //calling api to get subscribers
   getYourSubscribers(){
-    this.getPostsStatusSubs = true;
+    this.getPostsStatusSubs = true; //initiate loading for getting subsciptions
     let URL = "https://localhost:44399/api/youtube/yoursubscribers"
     this.httpCalls = this.http.get(URL);
     this.httpCalls.subscribe(data => {
       console.log(data);
-      this.allUserChannelsData = data;
-      this.getPostsStatusSubs = false;
+      this.allUserChannelsData = data; //the html loops over the content in this.
+      this.getPostsStatusSubs = false; //deactivate loading
     });
 
     document.querySelector('.call-popup-button').classList.add('hide');
@@ -94,13 +96,6 @@ export class SearchComponent {
     docReference.update({addedChannelIds: replaceWithNewOrder});
   }
 
-  refreshData(){
-    this.dontBlockRefresh();
-    document.querySelector('.subscriptions-list-popup').classList.add('hide');
-  }
-
-
-
   dontBlockRefresh(){
     this.blockChannelsRefreshing.emit(false);
   }
@@ -109,10 +104,15 @@ export class SearchComponent {
   }
 
   ngDoCheck(){
-    if(this.getPostsStatusSubs){
-      document.querySelector('.loading-indicator-subslist').classList.add('active');
+    if(document.getElementsByClassName('loading-indicator-subslist').length > 0){
+      console.log('loading indicator exists');
+      if(this.getPostsStatusSubs){
+        document.querySelector('.loading-indicator-subslist').classList.add('active');
+      } else {
+        document.querySelector('.loading-indicator-subslist').classList.remove('active');
+      }
     } else {
-      document.querySelector('.loading-indicator-subslist').classList.remove('active');
+      console.log('does not exist');
     }
   }
 

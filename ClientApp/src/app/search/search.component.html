@@ -3,29 +3,40 @@
 <br />
 
 <br />
-<button class="call-popup-button" (click)="getYourSubscribers()">Add Channels (call command and show popup)</button>
+<button class="call-popup-button" (click)="getYourSubscribers(); showPopup = !showPopup">Add Channels (call command and show popup)</button>
 <br />
-<button class="just-popup-button hide">Add Channels (just show popup)</button>
+<button class="just-popup-button hide" (click)="showPopup = !showPopup">Add Channels (just show popup)</button>
 
-<div *ngIf="allUserChannelsData !== undefined">
-    <div class="subscriptions-list-popup" style="height:500px;overflow-y:scroll;background:gainsboro;">
-        <button (click)="addChannelsToArray(user)">Add Selected Channels (append/refresh view)</button><br />
-        <button>Cancel (close popup and remove anything added to firestore from clicking below)</button>
+<div class="subscriptions-list-popup-wrapper" [ngClass]="{'popup-inactive': showPopup, 'popup-active': !showPopup}">
 
-        <div *ngFor="let channel of allUserChannelsData; let i = index" 
-        (click)="getSubscriptionChannelId(i)" 
-        class="channel-class subscription-{{i}}" 
-        id="list-{{channel.DataChannelId}}">
-            <div class="image-and-title">
-                <img src="{{channel.DataThumbnail}}" />
-                {{channel.DataTitle}}
+    <span class="popup-bg-dim" (click)="showPopup = !showPopup"></span>
+    <span class="popup-close-x" (click)="showPopup = !showPopup">X</span>
+
+    <div class="popup-outer">
+        <div class="popup-rendered" *ngIf="allUserChannelsData !== undefined">
+
+            <div class="popup-header">
+                <button (click)="addChannelsToArray(user)">Add Selected Channels</button>
+                <button (click)="showPopup = !showPopup">Cancel</button>
             </div>
-            <div class="remove-indicator">X</div>
+            
+            <div *ngFor="let channel of allUserChannelsData; let i = index" 
+            (click)="getSubscriptionChannelId(i)" 
+            class="channel-class subscription-{{i}}" 
+            id="list-{{channel.DataChannelId}}">
+                <div class="image-and-title">
+                    <img src="{{channel.DataThumbnail}}" />
+                    {{channel.DataTitle}}
+                </div>
+                <div class="remove-indicator">X</div>
+            </div>
+    
+        </div>
+
+        <div class="loading-container">
+            <div class="loading-indicator-subslist"></div>
         </div>
     </div>
-</div>
-<div style="position:relative;">
-    <div class="loading-indicator-subslist"></div>
 </div>
     
 
