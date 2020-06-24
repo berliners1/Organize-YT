@@ -13,7 +13,7 @@
             </div>
 
             <app-delete-channel [user]="user" [channel]="channel" (blockChannelsRefreshing)="receiveBlock($event)"></app-delete-channel>
-
+            <img src="{{channel[0].ChannelPhoto}}" alt="channel photo" />
             {{channel[0].ChannelTitle}}
             <div *ngFor="let video of channel">
                 <a href="https://www.youtube.com/watch?v={{video.VideoUrlId}}">{{video.VideoTitle}}</a>

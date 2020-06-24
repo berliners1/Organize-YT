@@ -2,6 +2,7 @@
 {
     public class ChannelDataInfo
     {
+        public string ChannelPhoto { get; set; }
         public string ChannelTitle { get; set; }
         public string ChannelId { get; set; }
         public string VideoTitle { get; set; }

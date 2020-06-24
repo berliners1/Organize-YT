@@ -4,6 +4,7 @@ using Newtonsoft.Json;
 using Organize_YT.Models;
 using System;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace Organize_YT.Data
@@ -17,15 +18,20 @@ namespace Organize_YT.Data
                 ApplicationName = this.GetType().ToString()
             });
 
-            //var searchListRequest = youtubeService.Search.List("snippet");
-            var searchListRequest2 = youtubeService.PlaylistItems.List("snippet");
-            //searchListRequest.Q = "Google"; // Replace with your search term.
-            searchListRequest2.MaxResults = 10;
-            searchListRequest2.Key = ApiKey;
-            searchListRequest2.PlaylistId = ChannelId; //ex. UU-lHJZR3Gqxm24_Vd_AJ5Yw
+            var searchListRequest = youtubeService.PlaylistItems.List("snippet");
+            searchListRequest.MaxResults = 10;
+            searchListRequest.Key = ApiKey;
+            searchListRequest.PlaylistId = ChannelId; //ex. UU-lHJZR3Gqxm24_Vd_AJ5Yw
 
             // Call the search.list method to retrieve results matching the specified query term.
-            var searchListResponse = await searchListRequest2.ExecuteAsync();
+            var searchListResponse = await searchListRequest.ExecuteAsync();
+
+            // For getting the channel photo.
+            var searchListRequest2 = youtubeService.Channels.List("snippet");
+            searchListRequest2.Key = ApiKey;
+            searchListRequest2.Id = Regex.Replace(ChannelId, "^[U][U]", "UC"); //ex. UC-lHJZR3Gqxm24_Vd_AJ5Yw
+            Console.WriteLine(searchListRequest2.Id);
+            var searchListResponse2 = await searchListRequest2.ExecuteAsync();
 
             List<ChannelDataInfo> ChannelData = new List<ChannelDataInfo>();
 
@@ -33,6 +39,7 @@ namespace Organize_YT.Data
             {
                 ChannelData.Add(new ChannelDataInfo
                 {
+                    ChannelPhoto = searchListResponse2.Items[0].Snippet.Thumbnails.Default__.Url,
                     ChannelTitle = item.Snippet.ChannelTitle,
                     ChannelId = item.Snippet.ChannelId,
                     VideoTitle = item.Snippet.Title,

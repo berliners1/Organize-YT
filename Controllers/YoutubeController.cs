@@ -23,7 +23,7 @@ namespace Organize_YT.Controllers
 
         //GET api/youtube/yoursubscriptions
         [HttpGet("yoursubscribers")]
-        public ActionResult<SubscribersInfo> SendSubData() //rename this to something better
+        public ActionResult<SubscribersInfo> SendSubData()
         {
             return Ok(GetSubData().Result);
         }
@@ -58,7 +58,7 @@ namespace Organize_YT.Controllers
             return Ok(GetChannelData(ApiKey, ChannelId).Result);
         }
 
-        static async Task<String> GetChannelData(string ApiKey, string ChannelId) //rename this to something better
+        static async Task<String> GetChannelData(string ApiKey, string ChannelId)
         {
             try
             {
@@ -71,7 +71,6 @@ namespace Organize_YT.Controllers
                 return "error: " + ex;
             }
         }
-
 
     }
 }
