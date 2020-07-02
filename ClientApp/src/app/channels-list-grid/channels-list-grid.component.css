@@ -44,6 +44,7 @@
     align-items:center;
     justify-content:center;
     cursor:grab;
+    z-index:2;
 }
 .channel-list-section.edit-mode .master-list > .channel-class > .drag-overlay:active{
     cursor:grabbing;
@@ -131,6 +132,9 @@
 
 .simplebar-scrollbar::before{
     opacity:1 !important;
+}
+.simplebar-track.simplebar-vertical {
+  z-index: 0;
 }
 
 @media (max-width:600px) {
