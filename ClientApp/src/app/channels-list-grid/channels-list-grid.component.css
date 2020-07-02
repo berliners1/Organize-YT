@@ -6,6 +6,9 @@
     display:none;
 }
 
+.channel-list-section{
+    margin:0 15px;
+}
 .channel-list-section .btn-edit-channel-order{
     display:block;
 }
@@ -15,13 +18,13 @@
 }
 .master-list {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(360px, auto));
+    grid-template-columns: repeat(auto-fit, minmax(380px, auto));
     justify-content: center;
 }
 .master-list > .channel-class{
     position:relative;
     width:350px;
-    margin:10px;
+    margin:10px 15px;
 }
 .master-list .drag-overlay{
     display:none;
