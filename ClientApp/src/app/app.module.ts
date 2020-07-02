@@ -18,6 +18,7 @@ import { DeleteChannelComponent } from './delete-channel/delete-channel.componen
 import { MainComponentComponent } from './main-component/main-component.component';
 import { LoggedOutComponent } from './logged-out/logged-out.component';
 import { FooterComponent } from './footer/footer.component';
+import { SimplebarAngularModule } from 'simplebar-angular';
 
 @NgModule({
   declarations: [
@@ -38,7 +39,8 @@ import { FooterComponent } from './footer/footer.component';
     AngularFireAuthModule,
     FormsModule,
     SortablejsModule,
-    SortablejsModule.forRoot({ animation: 150, handle: ".drag-overlay"  }),
+    SortablejsModule.forRoot({ animation: 150, handle: ".drag-overlay" }),
+    SimplebarAngularModule,
     RouterModule.forRoot([
 
     ])

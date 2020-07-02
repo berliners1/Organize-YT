@@ -26,14 +26,14 @@
                     <p>{{channel[0].ChannelTitle}}</p>
                 </a>
             </div>
-            <div class="video-items">
+            <ngx-simplebar class="video-items">
                 <div class="video-item" *ngFor="let video of channel">
                     <a href="https://www.youtube.com/watch?v={{video.VideoUrlId}}" target="_blank">
                         <img src="{{video.VideoThumbnail}}" alt="video thumbnail" />
                         <p>{{video.VideoTitle}}</p>
                     </a>
                 </div>
-            </div>
+            </ngx-simplebar>
         </div>
     </div>
     

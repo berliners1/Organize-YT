@@ -107,7 +107,6 @@
 
 .video-items {
     height:300px;
-    overflow-y:scroll;
 }
 .video-item{
     margin:5px 0;
@@ -128,4 +127,26 @@
 }
 .video-items img{
     width:40%;
+}
+
+.simplebar-scrollbar::before{
+    opacity:1 !important;
+}
+
+@media (max-width:600px) {
+  .header-inner {
+    flex-direction: column;
+    height: 150px;
+  }
+
+  .channel-class {
+    max-width: 80%;
+    margin: 0;
+  }
+
+  .master-list {
+    display: flex !important;
+    flex-direction: column;
+    align-items: center;
+  }
 }

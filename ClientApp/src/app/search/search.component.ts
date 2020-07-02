@@ -31,7 +31,7 @@ export class SearchComponent {
   //calling api to get subscribers
   getYourSubscribers() {
     this.getPostsStatusSubs = true; //initiate loading for getting subsciptions
-    let URL = "https://organize-yt.azurewebsites.net/api/youtube/bychannelsearch/" + this.channelId;
+    let URL = "https://localhost:44399/api/youtube/bychannelsearch/" + this.channelId;
     this.httpCalls = this.http.get(URL);
     this.httpCalls.subscribe(data => {
       console.log(data);
