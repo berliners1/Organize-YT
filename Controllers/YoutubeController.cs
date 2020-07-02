@@ -18,6 +18,33 @@ namespace Organize_YT.Controllers
             _configuration = configuration;
         }
 
+
+
+        /*-----------------------------------*/
+        /*Data and API call for searching channels by Title. 
+         * e.g. if you search "PewDiePie" and it finds any channels that match or are similar.*/
+        [HttpGet("bychannelsearch/{ChannelSearch}")]
+        public ActionResult<ChannelSearchDataInfo> SendChannelSearchData(string ApiKey, string ChannelSearch)
+        {
+            return Ok(GetChannelSearchData(ApiKey, ChannelSearch).Result);
+        }
+
+        static async Task<String> GetChannelSearchData(string ApiKey, string ChannelSearch)
+        {
+            try
+            {
+                ApiKey = _configuration["YoutubeApiKey"];
+                ChannelSearchData ChannelSearchData = new ChannelSearchData();
+                return await ChannelSearchData.Run(ApiKey, ChannelSearch);
+            }
+            catch (Exception ex)
+            {
+                return "error: " + ex;
+            }
+        }
+
+
+
         /*-----------------------------------*/
         /*Data and API call for getting subscriptions of currently logged-in/authenticated user (getting your subscriptions)*/
 
@@ -62,7 +89,7 @@ namespace Organize_YT.Controllers
         {
             try
             {
-                ApiKey = _configuration["OrganizeYT:YoutubeApiKey"];
+                ApiKey = _configuration["YoutubeApiKey"];
                 ChannelData ChannelData = new ChannelData();
                 return await ChannelData.Run(ApiKey, ChannelId);
             }

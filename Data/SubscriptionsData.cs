@@ -10,6 +10,7 @@ using Google.Apis.YouTube.v3;
 using Newtonsoft.Json;
 using Organize_YT.Models;
 using IdentityServer4.Validation;
+using Google.Apis.Auth.OAuth2.Flows;
 
 namespace Organize_YT.Data
 {
@@ -17,19 +18,22 @@ namespace Organize_YT.Data
     {
         public async Task<String> Run()
         {
+
+
             UserCredential credential;
-            using (var stream = new FileStream("client_secrets.json", FileMode.Open, FileAccess.Read))
+            credential = await GoogleWebAuthorizationBroker.AuthorizeAsync(
+            new ClientSecrets
             {
-                credential = await GoogleWebAuthorizationBroker.AuthorizeAsync(
-                    GoogleClientSecrets.Load(stream).Secrets,
-                    // This OAuth 2.0 access scope allows for full read/write access to the
-                    // authenticated user's account.
-                    new[] { YouTubeService.Scope.Youtube },
-                    "user",
-                    CancellationToken.None,
-                    new FileDataStore(this.GetType().ToString())
-                );
-            }
+                ClientId = "174320413415-ugebeiv1dd9ngmgo4op7lp7n4plbso33.apps.googleusercontent.com",
+                ClientSecret = "EH4ru1F_0Db-JpV5PfrVqsRH"
+            },
+            new[] { YouTubeService.Scope.Youtube },
+            "user",
+            CancellationToken.None,
+            new FileDataStore(this.GetType().ToString()));
+
+
+
 
             var youtubeService = new YouTubeService(new BaseClientService.Initializer()
             {

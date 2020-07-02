@@ -1,52 +1,56 @@
-<button class="call-popup-button button-add-channels" (click)="getYourSubscribers(); showPopup = !showPopup; allowChannelComparisons = true">
-    <span class="add-text-1">+</span>
-    <span class="add-text-2">Add Channels</span>
+<button class="call-popup-button hide button-add-channels" (click)="getYourSubscribers(); showPopup = !showPopup; allowChannelComparisons = true">
+  <span class="add-text-1">+</span>
+  <span class="add-text-2">Add Channels</span>
 </button>
 
-<button class="just-popup-button hide button-add-channels" (click)="showPopup = !showPopup; allowChannelComparisons = true">
-    <span class="add-text-1">+</span>
-    <span class="add-text-2">Add Channels</span>
+<button class="just-popup-button button-add-channels" (click)="checkIfAddedToPopup(); showPopup = !showPopup; allowChannelComparisons = true">
+  <span class="add-text-1">+</span>
+  <span class="add-text-2">Add Channels</span>
 </button>
 
 <div class="subscriptions-list-popup-wrapper" [ngClass]="{'popup-inactive': showPopup, 'popup-active': !showPopup}">
 
-    <span class="popup-bg-dim" (click)="showPopup = !showPopup"></span>
-    <span class="popup-close-x" (click)="showPopup = !showPopup">X</span>
+  <span class="popup-bg-dim" (click)="showPopup = !showPopup"></span>
+  <span class="popup-close-x" (click)="showPopup = !showPopup">X</span>
 
-    <div class="popup-outer">
-        <div class="popup-rendered" *ngIf="allUserChannelsData !== undefined">
-            
-            <div class="popup-inner-container">
-                <div *ngFor="let channel of allUserChannelsData; let i = index" 
-                (click)="getSubscriptionChannelId(i)" 
-                class="channel-item subscription-{{i}}" 
-                id="list-{{channel.DataChannelId}}">
-                    <div class="image-and-title">
-                        <img src="{{channel.DataThumbnail}}" />
-                        {{channel.DataTitle}}
-                    </div>
-                    <div class="remove-indicator">X</div>
-                </div>
-            </div>
+  <div class="popup-outer">
+    <div class="popup-rendered" *ngIf="allUserChannelsData !== undefined">
 
-            <div class="popup-footer">
-                <div class="popup-foter-buttons">
-                    <button 
-                    (click)="addChannelsToArray(user); showPopup = !showPopup"
-                    [ngClass]="{'button-enabled': submitButtonEnabled, 'button-disabled': !submitButtonEnabled}">Add Selected Channels</button>
-                    <button (click)="clearSelection()">Clear Selection</button>
-                    <p style="margin:0;text-align:center;">Channels selected: {{newList.length}}</p>
-                </div>
-            </div>
-    
+      <div class="popup-inner-container">
+        <div *ngFor="let channel of allUserChannelsData; let i = index"
+             (click)="getSubscriptionChannelId(i)"
+             class="channel-item subscription-{{i}}"
+             id="list-{{channel.DataChannelId}}">
+          <div class="image-and-title">
+            <img src="{{channel.DataThumbnail}}" />
+            {{channel.DataTitle}}
+          </div>
+          <div class="remove-indicator">X</div>
         </div>
+      </div>
 
-        <div class="loading-container">
-            <div class="loading-indicator-subslist"></div>
-            <p style="bottom:-45px; position:relative; text-align:center;">Grabbing your subscriptions!<br />This may take a bit.</p>
+      <div class="popup-footer">
+        <div class="popup-foter-buttons">
+          <button (click)="addChannelsToArray(user); showPopup = !showPopup"
+                  [ngClass]="{'button-enabled': submitButtonEnabled, 'button-disabled': !submitButtonEnabled}">
+            Add Selected Channels
+          </button>
+          <button (click)="clearSelection()">Clear Selection</button>
+          <p style="margin:0;text-align:center;">Channels selected: {{newList.length}}</p>
         </div>
+      </div>
+
     </div>
+    <div class="loading-container">
+      <div class="loading-indicator-subslist"></div>
+    </div>
+    <div class="popup-search-bar">
+      <input type="text" [(ngModel)]="channelId">
+      <button (click)="getYourSubscribers()">Search Channels</button>
+    </div>
+
+  </div>
 </div>
-    
+
 
 
