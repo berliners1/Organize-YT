@@ -1,11 +1,12 @@
-import { Component, Input, SimpleChanges, Output, EventEmitter} from '@angular/core';
+import { Component, Input, SimpleChanges, Output, EventEmitter, ViewEncapsulation} from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import * as firebase from 'firebase';
 
 @Component({
   selector: 'app-channels-list-grid',
   templateUrl: './channels-list-grid.component.html',
-  styleUrls: ['./channels-list-grid.component.css']
+  styleUrls: ['./channels-list-grid.component.css'],
+  encapsulation: ViewEncapsulation.None
 })
 export class ChannelsListGridComponent {
 
