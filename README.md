@@ -5,5 +5,3 @@ Video demo to show what it does: https://youtu.be/2ocLuXQ4St0
 ---
 
 <img src="https://res.cloudinary.com/dbnl5tq2l/image/upload/v1593720444/demoscreenshot-1.jpg" />
-
-<img src="https://res.cloudinary.com/dbnl5tq2l/image/upload/v1593720700/demoscreenshot-2.jpg" />
