@@ -31,18 +31,29 @@ export class SearchComponent {
   //calling api to get subscribers
   getYourSubscribers() {
     this.getPostsStatusSubs = true; //initiate loading for getting subsciptions
-    let URL = "https://localhost:44399/api/youtube/bychannelsearch/" + this.channelId;
+    let URL = "https://organize-yt.azurewebsites.net/api/youtube/bychannelsearch/" + this.channelId;
     this.httpCalls = this.http.get(URL);
     this.httpCalls.subscribe(data => {
       console.log(data);
       this.allUserChannelsData = data; //the html loops over the content in this.
       this.getPostsStatusSubs = false; //deactivate loading
       document.querySelector('.popup-search-bar').classList.add('active');
-      
+
       setTimeout(() => {
         console.log('checked in getYourSubscribers httpcal completed');
         this.checkIfAddedToPopup();
-      }, 100);
+        console.log('newlist length');
+        console.log(this.newList.length);
+
+        //Make sure when you re-search somebody in the popup, their selected status maintains.
+        for (let i = 0; i < this.newList.length; i++) {
+          for (let j = 0; j < document.getElementsByClassName('channel-item').length; j++) {
+            if (this.newList[i] === document.getElementsByClassName('channel-item')[j].id.replace(/^.{7}/g, "UU")) {
+              document.getElementsByClassName('channel-item')[j].classList.add('selected');
+            }
+          }
+        }
+      }, 25);
 
     });
     document.querySelector('.call-popup-button').classList.add('hide');
